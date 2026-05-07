@@ -25,7 +25,7 @@
     --text-sub: #7A5A42;
     --text-hint: #B8997F;
     --border: #E8D5C0;
-    --shadow: rgba(90,50,20,0.08);
+    --shadow: rgba(90, 50, 20, 0.08);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,11 +35,12 @@
     background: var(--cream);
     color: var(--text-main);
     min-height: 100vh;
-    background-image:
+    background-image: 
       radial-gradient(circle at 20% 10%, rgba(245,196,168,0.25) 0%, transparent 50%),
       radial-gradient(circle at 80% 90%, rgba(143,171,150,0.2) 0%, transparent 50%);
   }
 
+  /* ===== Header ===== */
   header {
     background: var(--warm-white);
     border-bottom: 1px solid var(--border);
@@ -66,8 +67,55 @@
     color: var(--brown-dark);
     font-weight: 600;
   }
-  header p { font-size: 0.75rem; color: var(--text-hint); margin-top: 1px; }
+  header p {
+    font-size: 0.75rem;
+    color: var(--text-hint);
+    margin-top: 1px;
+  }
 
+  /* ===== API Key Banner ===== */
+  .api-banner {
+    background: var(--gold-light);
+    border-bottom: 1px solid var(--gold);
+    padding: 0.7rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.82rem;
+    color: var(--brown-dark);
+  }
+  .api-banner input {
+    flex: 1;
+    max-width: 360px;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    background: white;
+    font-size: 0.82rem;
+    font-family: monospace;
+    color: var(--text-main);
+    outline: none;
+  }
+  .api-banner input:focus { border-color: var(--peach-deep); }
+  .api-save-btn {
+    padding: 0.4rem 1rem;
+    background: var(--gold);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .api-save-btn:hover { background: var(--peach-deep); }
+  #api-status {
+    font-size: 0.78rem;
+    color: var(--sage-dark);
+    font-weight: 500;
+  }
+
+  /* ===== Main Layout ===== */
   main {
     max-width: 920px;
     margin: 2rem auto;
@@ -85,8 +133,13 @@
     font-weight: 600;
     margin-bottom: 0.5rem;
   }
-  .section-intro p { font-size: 0.9rem; color: var(--text-sub); line-height: 1.7; }
+  .section-intro p {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    line-height: 1.7;
+  }
 
+  /* ===== Card ===== */
   .card {
     background: var(--warm-white);
     border: 1px solid var(--border);
@@ -114,6 +167,7 @@
     flex-shrink: 0;
   }
 
+  /* ===== Form Elements ===== */
   .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -143,7 +197,10 @@
     margin-left: 4px;
     vertical-align: 1px;
   }
-  .label-badge.optional { background: var(--sage-light); color: var(--sage-dark); }
+  .label-badge.optional {
+    background: var(--sage-light);
+    color: var(--sage-dark);
+  }
 
   input[type="text"], input[type="number"], select, textarea {
     width: 100%;
@@ -164,7 +221,9 @@
     background: white;
   }
   textarea { min-height: 100px; line-height: 1.6; }
+  select { cursor: pointer; }
 
+  /* Hobby Tags */
   .hobby-tags {
     display: flex;
     flex-wrap: wrap;
@@ -185,7 +244,12 @@
   .hobby-tag:hover { background: var(--peach); color: white; }
   .hobby-tag.active { background: var(--peach-deep); color: white; border-color: var(--peach-deep); }
 
-  .toggle-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  /* Radio / Toggle */
+  .toggle-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
   .toggle-btn {
     padding: 0.4rem 1rem;
     border: 1.5px solid var(--border);
@@ -196,12 +260,21 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-  .toggle-btn.active { background: var(--peach-deep); color: white; border-color: var(--peach-deep); }
+  .toggle-btn.active {
+    background: var(--peach-deep);
+    color: white;
+    border-color: var(--peach-deep);
+  }
   .toggle-btn:hover:not(.active) { border-color: var(--peach-mid); color: var(--text-main); }
 
+  /* Hint text */
   .hint { font-size: 0.77rem; color: var(--text-hint); margin-top: 0.35rem; line-height: 1.5; }
 
-  .generate-wrap { text-align: center; margin: 2rem 0; }
+  /* ===== Generate Button ===== */
+  .generate-wrap {
+    text-align: center;
+    margin: 2rem 0;
+  }
   .generate-btn {
     background: linear-gradient(135deg, var(--peach-deep) 0%, #A0522D 100%);
     color: white;
@@ -229,28 +302,59 @@
   .generate-btn:hover::before { left: 100%; }
   .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(201,107,58,0.45); }
   .generate-btn:active { transform: translateY(0); }
-  .generate-btn:disabled { background: #CBBBAF; box-shadow: none; cursor: not-allowed; transform: none; }
+  .generate-btn:disabled {
+    background: #CBBBAF;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+  }
 
-  .loading-wrap { text-align: center; padding: 3rem 1rem; display: none; }
-  .loading-hearts { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; }
-  .loading-hearts span { font-size: 1.5rem; animation: heartbeat 0.8s ease-in-out infinite; }
+  /* ===== Loading ===== */
+  .loading-wrap {
+    text-align: center;
+    padding: 3rem 1rem;
+    display: none;
+  }
+  .loading-hearts {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .loading-hearts span {
+    font-size: 1.5rem;
+    animation: heartbeat 0.8s ease-in-out infinite;
+  }
   .loading-hearts span:nth-child(2) { animation-delay: 0.15s; }
   .loading-hearts span:nth-child(3) { animation-delay: 0.3s; }
   @keyframes heartbeat {
     0%, 100% { transform: scale(1); opacity: 0.4; }
     50% { transform: scale(1.3); opacity: 1; }
   }
-  .loading-text { font-size: 0.9rem; color: var(--text-sub); animation: pulse 1.5s ease-in-out infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+  .loading-text {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
 
+  /* ===== Result Area ===== */
   #result-area { display: none; }
+
   .result-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1.5rem;
   }
-  .result-header h2 { font-family: 'Noto Serif JP', serif; font-size: 1.3rem; color: var(--brown-dark); }
+  .result-header h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.3rem;
+    color: var(--brown-dark);
+  }
   .copy-all-btn {
     background: var(--sage-light);
     color: var(--sage-dark);
@@ -263,6 +367,7 @@
   }
   .copy-all-btn:hover { background: var(--sage); color: white; }
 
+  /* Result Blocks */
   .result-block {
     background: var(--warm-white);
     border: 1px solid var(--border);
@@ -275,6 +380,7 @@
     transition: opacity 0.4s ease, transform 0.4s ease;
   }
   .result-block.visible { opacity: 1; transform: translateY(0); }
+
   .result-block-header {
     background: var(--peach-light);
     padding: 0.75rem 1.25rem;
@@ -283,7 +389,14 @@
     gap: 0.5rem;
     border-bottom: 1px solid var(--peach);
   }
-  .result-block-header h3 { font-size: 0.9rem; font-weight: 700; color: var(--peach-deep); }
+  .result-block-header .block-icon {
+    font-size: 1.1rem;
+  }
+  .result-block-header h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--peach-deep);
+  }
   .result-block-header .copy-btn {
     margin-left: auto;
     background: none;
@@ -296,29 +409,28 @@
     transition: all 0.15s;
   }
   .result-block-header .copy-btn:hover { background: var(--peach-mid); color: white; }
-  .result-block-body { padding: 1.25rem; font-size: 0.9rem; line-height: 1.85; color: var(--text-main); white-space: pre-wrap; }
 
+  .result-block-body {
+    padding: 1.25rem;
+    font-size: 0.9rem;
+    line-height: 1.85;
+    color: var(--text-main);
+    white-space: pre-wrap;
+  }
+
+  /* Sage blocks (personality) */
   .result-block.sage .result-block-header { background: var(--sage-light); border-bottom-color: var(--sage); }
   .result-block.sage .result-block-header h3 { color: var(--sage-dark); }
   .result-block.sage .result-block-header .copy-btn { border-color: var(--sage); color: var(--sage-dark); }
   .result-block.sage .result-block-header .copy-btn:hover { background: var(--sage); color: white; }
+
+  /* Gold blocks */
   .result-block.gold .result-block-header { background: var(--gold-light); border-bottom-color: var(--gold); }
   .result-block.gold .result-block-header h3 { color: var(--brown-soft); }
   .result-block.gold .result-block-header .copy-btn { border-color: var(--gold); color: var(--brown-soft); }
   .result-block.gold .result-block-header .copy-btn:hover { background: var(--gold); color: white; }
 
-  .error-box {
-    background: #FFF0F0;
-    border: 1px solid #F4BABA;
-    border-radius: 10px;
-    padding: 1rem 1.25rem;
-    color: #8B2020;
-    font-size: 0.87rem;
-    margin-bottom: 1rem;
-    display: none;
-    line-height: 1.6;
-  }
-
+  /* ===== Toast ===== */
   .toast {
     position: fixed;
     bottom: 2rem;
@@ -336,11 +448,32 @@
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  footer { text-align: center; padding: 2rem; font-size: 0.75rem; color: var(--text-hint); border-top: 1px solid var(--border); }
+  /* ===== Error ===== */
+  .error-box {
+    background: #FFF0F0;
+    border: 1px solid #F4BABA;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    color: #8B2020;
+    font-size: 0.87rem;
+    margin-bottom: 1rem;
+    display: none;
+    line-height: 1.6;
+  }
+
+  /* ===== Footer ===== */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.75rem;
+    color: var(--text-hint);
+    border-top: 1px solid var(--border);
+  }
 </style>
 </head>
 <body>
 
+<!-- Header -->
 <header>
   <div class="logo-bear">🐻</div>
   <div>
@@ -349,6 +482,15 @@
   </div>
 </header>
 
+<!-- API Key Banner -->
+<div class="api-banner">
+  <span>🔑 Anthropic APIキー：</span>
+  <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." autocomplete="off">
+  <button class="api-save-btn" onclick="saveApiKey()">保存</button>
+  <span id="api-status">未設定</span>
+</div>
+
+<!-- Main -->
 <main>
   <div class="section-intro">
     <h2>✨ お相手との会話をデザインしよう</h2>
@@ -356,9 +498,13 @@
     お見合い・デート前日の準備にぴったりです。</p>
   </div>
 
-  <!-- カード1: 基本情報 -->
+  <!-- Card 1: 基本情報 -->
   <div class="card">
-    <div class="card-title"><div class="icon">👤</div>お相手の基本情報</div>
+    <div class="card-title">
+      <div class="icon">👤</div>
+      お相手の基本情報
+    </div>
+
     <div class="form-row">
       <div class="form-group">
         <label>お相手のお名前 <span class="label-badge">任意</span></label>
@@ -369,6 +515,7 @@
         <input type="number" id="partner-age" placeholder="例：28" min="18" max="80">
       </div>
     </div>
+
     <div class="form-row">
       <div class="form-group">
         <label>お相手の職業 <span class="label-badge">任意</span></label>
@@ -379,26 +526,32 @@
         <input type="text" id="partner-place" placeholder="例：埼玉県、北海道出身">
       </div>
     </div>
+
     <div class="form-group">
-      <label>会うシチュエーション</label>
+      <label>会うシチュエーション <span class="label-badge">必須</span></label>
       <div class="toggle-group" id="situation-group">
-        <button class="toggle-btn active" onclick="selectToggle(this,'situation')">お見合い・初対面</button>
-        <button class="toggle-btn" onclick="selectToggle(this,'situation')">2回目のデート</button>
-        <button class="toggle-btn" onclick="selectToggle(this,'situation')">食事（レストラン）</button>
-        <button class="toggle-btn" onclick="selectToggle(this,'situation')">カフェ</button>
-        <button class="toggle-btn" onclick="selectToggle(this,'situation')">お散歩・アウトドア</button>
+        <button class="toggle-btn active" onclick="selectToggle(this, 'situation')">お見合い・初対面</button>
+        <button class="toggle-btn" onclick="selectToggle(this, 'situation')">2回目のデート</button>
+        <button class="toggle-btn" onclick="selectToggle(this, 'situation')">食事（レストラン）</button>
+        <button class="toggle-btn" onclick="selectToggle(this, 'situation')">カフェ</button>
+        <button class="toggle-btn" onclick="selectToggle(this, 'situation')">お散歩・アウトドア</button>
       </div>
     </div>
   </div>
 
-  <!-- カード2: 趣味 -->
+  <!-- Card 2: 趣味・興味 -->
   <div class="card">
-    <div class="card-title"><div class="icon">🎯</div>お相手の趣味・興味</div>
+    <div class="card-title">
+      <div class="icon">🎯</div>
+      お相手の趣味・興味
+    </div>
+
     <div class="form-group">
       <label>趣味・好きなこと（自由入力） <span class="label-badge">おすすめ</span></label>
       <input type="text" id="hobbies-input" placeholder="例：料理、映画鑑賞、登山、カフェ巡り">
       <p class="hint">カンマ区切りで複数入力できます。プロフィールに書いてあった趣味をそのまま入れてOK！</p>
     </div>
+
     <div class="form-group">
       <label>よく使われる趣味タグ（クリックで追加）</label>
       <div class="hobby-tags" id="hobby-tag-list">
@@ -422,20 +575,31 @@
     </div>
   </div>
 
-  <!-- カード3: プロフィール -->
+  <!-- Card 3: プロフィール全文 -->
   <div class="card">
-    <div class="card-title"><div class="icon">📋</div>プロフィール文・自己紹介をコピペ</div>
+    <div class="card-title">
+      <div class="icon">📋</div>
+      プロフィール文・自己紹介をコピペ
+    </div>
+
     <div class="form-group">
       <label>プロフィール全文 <span class="label-badge optional">任意・強力推奨</span></label>
       <textarea id="profile-text" placeholder="お相手のプロフィール文をそのままコピー＆ペーストしてください。
 「明るく元気な性格です。休日は料理を楽しんでいます…」など
-文章が長いほど精度の高い会話アドバイスが得られます。" style="min-height: 140px;"></textarea>
+文章が長いほど精度の高い会話アドバイスが得られます。
+
+結婚相談所のプロフィールシートの文章でもOKです！" style="min-height: 140px;"></textarea>
+      <p class="hint">※ 個人情報の取り扱いに注意してください。AIへの送信はあなたが設定したAPIキー経由です。</p>
     </div>
   </div>
 
-  <!-- カード4: 自分について -->
+  <!-- Card 4: 自分について -->
   <div class="card">
-    <div class="card-title"><div class="icon">🪞</div>あなた自身について（精度UP）</div>
+    <div class="card-title">
+      <div class="icon">🪞</div>
+      あなた自身について（会話アドバイスの精度UP）
+    </div>
+
     <div class="form-row">
       <div class="form-group">
         <label>あなたが苦手な話題 <span class="label-badge optional">任意</span></label>
@@ -446,29 +610,39 @@
         <input type="text" id="my-strong" placeholder="例：旅行、食べ物全般">
       </div>
     </div>
+
     <div class="form-group">
       <label>会話の不安・悩み <span class="label-badge optional">任意</span></label>
       <div class="toggle-group" id="anxiety-group">
-        <button class="toggle-btn" onclick="selectToggle(this,'anxiety')">沈黙が怖い</button>
-        <button class="toggle-btn" onclick="selectToggle(this,'anxiety')">話題が続かない</button>
-        <button class="toggle-btn" onclick="selectToggle(this,'anxiety')">自分のことを話すのが苦手</button>
-        <button class="toggle-btn" onclick="selectToggle(this,'anxiety')">相手の話をうまく広げられない</button>
-        <button class="toggle-btn" onclick="selectToggle(this,'anxiety')">緊張しすぎてしまう</button>
+        <button class="toggle-btn" onclick="selectToggle(this, 'anxiety')">沈黙が怖い</button>
+        <button class="toggle-btn" onclick="selectToggle(this, 'anxiety')">話題が続かない</button>
+        <button class="toggle-btn" onclick="selectToggle(this, 'anxiety')">自分のことを話すのが苦手</button>
+        <button class="toggle-btn" onclick="selectToggle(this, 'anxiety')">相手の話をうまく広げられない</button>
+        <button class="toggle-btn" onclick="selectToggle(this, 'anxiety')">緊張しすぎてしまう</button>
       </div>
     </div>
   </div>
 
+  <!-- Generate Button -->
   <div class="generate-wrap">
-    <button class="generate-btn" id="gen-btn" onclick="generateConversation()">🌸 会話フローを生成する</button>
+    <button class="generate-btn" id="gen-btn" onclick="generateConversation()">
+      🌸 会話フローを生成する
+    </button>
+    <p class="hint" style="margin-top: 0.75rem;">APIキーを設定してから実行してください</p>
   </div>
 
+  <!-- Error -->
   <div class="error-box" id="error-box"></div>
 
+  <!-- Loading -->
   <div class="loading-wrap" id="loading-wrap">
-    <div class="loading-hearts"><span>🌸</span><span>💬</span><span>🌸</span></div>
+    <div class="loading-hearts">
+      <span>🌸</span><span>💬</span><span>🌸</span>
+    </div>
     <div class="loading-text" id="loading-text">会話フローを考えています...</div>
   </div>
 
+  <!-- Result -->
   <div id="result-area">
     <div class="result-header">
       <h2>✨ あなたへの会話アドバイス</h2>
@@ -476,33 +650,68 @@
     </div>
     <div id="result-blocks"></div>
   </div>
+
 </main>
 
-<footer>こぐま会話ナビ｜婚活・お見合い会話サポートアプリ｜Powered by Claude AI</footer>
+<footer>
+  こぐま会話ナビ｜婚活・お見合い会話サポートアプリ ｜ Powered by Claude AI
+</footer>
+
+<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
+// ===== State =====
+let apiKey = '';
 let selectedSituation = 'お見合い・初対面';
 let selectedAnxiety = '';
 
+// ===== API Key =====
+function saveApiKey() {
+  const v = document.getElementById('api-key-input').value.trim();
+  if (!v) { showToast('APIキーを入力してください'); return; }
+  if (!v.startsWith('sk-ant-')) { showToast('Anthropic APIキーは sk-ant- で始まります'); return; }
+  apiKey = v;
+  localStorage.setItem('koguma_api_key', v);
+  document.getElementById('api-status').textContent = '✅ 設定済み';
+  document.getElementById('api-status').style.color = '#4A7057';
+  showToast('APIキーを保存しました');
+}
+
+function loadApiKey() {
+  const saved = localStorage.getItem('koguma_api_key');
+  if (saved) {
+    apiKey = saved;
+    document.getElementById('api-key-input').value = saved;
+    document.getElementById('api-status').textContent = '✅ 設定済み';
+    document.getElementById('api-status').style.color = '#4A7057';
+  }
+}
+
+// ===== Toggle Buttons =====
 function selectToggle(btn, group) {
-  const g = document.getElementById(group + '-group');
-  if (!g) return;
-  g.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  const groupEl = document.getElementById(group + '-group');
+  if (!groupEl) return;
+  groupEl.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   if (group === 'situation') selectedSituation = btn.textContent;
   if (group === 'anxiety') selectedAnxiety = btn.textContent;
 }
 
+// ===== Hobby Tags =====
 function addHobbyTag(tag) {
   tag.classList.toggle('active');
   const input = document.getElementById('hobbies-input');
-  const active = [...document.querySelectorAll('.hobby-tag.active')].map(t => t.textContent);
-  const manual = input.value.split(/[,、]/).map(s => s.trim()).filter(s => s && !active.includes(s));
-  input.value = [...active, ...manual].join('、');
+  const activeTexts = [...document.querySelectorAll('.hobby-tag.active')].map(t => t.textContent);
+  const manualInput = input.value.split(',').map(s => s.trim()).filter(s => s && !activeTexts.includes(s));
+  const combined = [...activeTexts, ...manualInput];
+  input.value = combined.join('、');
 }
 
+// ===== Generate =====
 async function generateConversation() {
+  if (!apiKey) { showError('APIキーが設定されていません。上部の入力欄からAPIキーを設定してください。'); return; }
+
   const name = document.getElementById('partner-name').value.trim();
   const age = document.getElementById('partner-age').value.trim();
   const job = document.getElementById('partner-job').value.trim();
@@ -512,7 +721,10 @@ async function generateConversation() {
   const myWeak = document.getElementById('my-weak').value.trim();
   const myStrong = document.getElementById('my-strong').value.trim();
 
-  if (!hobbies && !profile) { showError('趣味またはプロフィール文を入力してください。'); return; }
+  if (!hobbies && !profile) {
+    showError('趣味またはプロフィール文を入力してください。');
+    return;
+  }
 
   hideError();
   setLoading(true);
@@ -568,32 +780,43 @@ ${userInfo ? `【相談者の情報】\n${userInfo}` : ''}
 
 回答は日本語で、やさしく実践的な内容にしてください。`;
 
-  const msgs = ['お相手のプロフィールを分析中...','会話ネタを考えています...','沈黙対策フレーズを作成中...','アドバイスをまとめています...'];
+  const loadingMessages = [
+    'お相手のプロフィールを分析中...',
+    '会話ネタを考えています...',
+    '沈黙対策フレーズを作成中...',
+    'アドバイスをまとめています...',
+  ];
   let li = 0;
   const lt = setInterval(() => {
-    li = (li + 1) % msgs.length;
+    li = (li + 1) % loadingMessages.length;
     const el = document.getElementById('loading-text');
-    if (el) el.textContent = msgs[li];
+    if (el) el.textContent = loadingMessages[li];
   }, 1800);
 
   try {
-    const res = await fetch('/api/generate', {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt }),
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        messages: [{ role: 'user', content: prompt }]
+      })
     });
 
     clearInterval(lt);
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || `サーバーエラー: ${res.status}`);
+      throw new Error(err.error?.message || `APIエラー: ${res.status}`);
     }
 
     const data = await res.json();
-    if (!data.result) throw new Error('AIからの返答が空でした。');
-    renderResults(data.result, name);
+    const text = data.content?.[0]?.text || '';
 
+    if (!text) throw new Error('AIからの返答が空でした。');
+
+    renderResults(text, name);
   } catch (e) {
     clearInterval(lt);
     showError('エラーが発生しました：' + e.message);
@@ -602,37 +825,43 @@ ${userInfo ? `【相談者の情報】\n${userInfo}` : ''}
   }
 }
 
+// ===== Render Results =====
 const SECTION_CONFIG = [
-  { title: '🔍 お相手の性格・雰囲気分析', color: 'sage' },
-  { title: '💬 鉄板会話ネタ5選', color: '' },
-  { title: '⏱️ 会話の流れ（タイムライン）', color: '' },
-  { title: '🆘 沈黙・困ったときの救済フレーズ', color: 'gold' },
-  { title: '❓ 盛り上がる質問リスト', color: '' },
-  { title: '⚠️ NGポイント', color: 'sage' },
-  { title: '✨ 好印象アドバイス', color: 'gold' },
+  { key: '1', title: '🔍 お相手の性格・雰囲気分析', color: 'sage' },
+  { key: '2', title: '💬 鉄板会話ネタ5選', color: '' },
+  { key: '3', title: '⏱️ 会話の流れ（タイムライン）', color: '' },
+  { key: '4', title: '🆘 沈黙・困ったときの救済フレーズ', color: 'gold' },
+  { key: '5', title: '❓ 盛り上がる質問リスト', color: '' },
+  { key: '6', title: '⚠️ NGポイント', color: 'sage' },
+  { key: '7', title: '✨ 好印象アドバイス', color: 'gold' },
 ];
 
 function renderResults(text, name) {
   const container = document.getElementById('result-blocks');
   container.innerHTML = '';
+
   const parts = text.split(/##\s*\d+\.\s*/);
   const sections = parts.slice(1);
 
   if (sections.length === 0) {
-    container.appendChild(createBlock('🌸 会話アドバイス', text, ''));
+    const block = createBlock('🌸 会話アドバイス', text, '');
+    container.appendChild(block);
   } else {
     sections.forEach((section, i) => {
       const cfg = SECTION_CONFIG[i] || { title: `セクション${i + 1}`, color: '' };
       const lines = section.split('\n');
+      const titleLine = lines[0].trim();
       const body = lines.slice(1).join('\n').trim();
-      container.appendChild(createBlock(cfg.title, body, cfg.color));
+      const displayTitle = cfg.title || titleLine;
+      const block = createBlock(displayTitle, body, cfg.color);
+      container.appendChild(block);
     });
   }
 
   const area = document.getElementById('result-area');
   area.style.display = 'block';
-  const h = area.querySelector('.result-header h2');
-  if (h) h.textContent = name ? `✨ ${name}さんとの会話アドバイス` : '✨ あなたへの会話アドバイス';
+  const header = area.querySelector('.result-header h2');
+  if (header) header.textContent = name ? `✨ ${name}さんとの会話アドバイス` : '✨ あなたへの会話アドバイス';
 
   setTimeout(() => {
     document.querySelectorAll('.result-block').forEach((b, i) => {
@@ -645,17 +874,21 @@ function renderResults(text, name) {
 function createBlock(title, body, colorClass) {
   const block = document.createElement('div');
   block.className = 'result-block' + (colorClass ? ' ' + colorClass : '');
+
   const header = document.createElement('div');
   header.className = 'result-block-header';
   header.innerHTML = `<h3>${title}</h3><button class="copy-btn" onclick="copyBlock(this)">コピー</button>`;
+
   const bodyEl = document.createElement('div');
   bodyEl.className = 'result-block-body';
   bodyEl.textContent = body;
+
   block.appendChild(header);
   block.appendChild(bodyEl);
   return block;
 }
 
+// ===== Copy =====
 function copyBlock(btn) {
   const body = btn.closest('.result-block').querySelector('.result-block-body');
   if (!body) return;
@@ -668,19 +901,21 @@ function copyBlock(btn) {
 function copyAll() {
   const blocks = document.querySelectorAll('.result-block');
   const all = [...blocks].map(b => {
-    const t = b.querySelector('h3')?.textContent || '';
-    const bd = b.querySelector('.result-block-body')?.textContent || '';
-    return `【${t}】\n${bd}`;
+    const title = b.querySelector('h3')?.textContent || '';
+    const body = b.querySelector('.result-block-body')?.textContent || '';
+    return `【${title}】\n${body}`;
   }).join('\n\n---\n\n');
   navigator.clipboard.writeText(all).then(() => showToast('全文をコピーしました！'));
 }
 
+// ===== UI Helpers =====
 function setLoading(v) {
   document.getElementById('loading-wrap').style.display = v ? 'block' : 'none';
   const btn = document.getElementById('gen-btn');
   btn.disabled = v;
   btn.textContent = v ? '⏳ 生成中...' : '🌸 会話フローを生成する';
 }
+
 function showError(msg) {
   const box = document.getElementById('error-box');
   box.style.display = 'block';
@@ -688,12 +923,16 @@ function showError(msg) {
   box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 function hideError() { document.getElementById('error-box').style.display = 'none'; }
+
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
+
+// ===== Init =====
+loadApiKey();
 </script>
 </body>
 </html>
