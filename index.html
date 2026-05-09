@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>こぐま会話ナビ（ローカルLLM版）</title>
+<title>こぐま会話ナビ</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 
@@ -82,7 +82,10 @@ color:var(--text-hint);
 .local-banner{
 background:#EAF4EA;
 border-bottom:1px solid #A8D5A2;
-padding:0.8rem 2rem;
+padding:0.7rem 2rem;
+display:flex;
+align-items:center;
+gap:0.75rem;
 font-size:0.82rem;
 color:#2D5A27;
 }
@@ -209,6 +212,28 @@ min-height:100px;
 line-height:1.6;
 }
 
+.hobby-tags{
+display:flex;
+flex-wrap:wrap;
+gap:0.5rem;
+margin-top:0.75rem;
+}
+
+.hobby-tag{
+background:var(--peach-light);
+color:var(--peach-deep);
+border:1px solid var(--peach);
+border-radius:20px;
+padding:0.3rem 0.75rem;
+font-size:0.8rem;
+cursor:pointer;
+}
+
+.hobby-tag.active{
+background:var(--peach-deep);
+color:white;
+}
+
 .toggle-group{
 display:flex;
 gap:0.5rem;
@@ -248,12 +273,6 @@ cursor:pointer;
 box-shadow:0 4px 20px rgba(201,107,58,0.35);
 }
 
-.generate-btn:disabled{
-background:#CBBBAF;
-cursor:not-allowed;
-box-shadow:none;
-}
-
 .loading-wrap{
 text-align:center;
 padding:3rem 1rem;
@@ -267,14 +286,39 @@ border-radius:14px;
 overflow:hidden;
 margin-bottom:1rem;
 box-shadow:0 2px 12px var(--shadow);
+opacity:0;
+transform:translateY(12px);
+transition:0.4s;
+}
+
+.result-block.visible{
+opacity:1;
+transform:translateY(0);
 }
 
 .rb-header{
 background:var(--peach-light);
 padding:0.75rem 1.25rem;
+display:flex;
+align-items:center;
+border-bottom:1px solid var(--peach);
+}
+
+.rb-header h3{
+font-size:0.9rem;
 font-weight:700;
 color:var(--peach-deep);
-border-bottom:1px solid var(--peach);
+}
+
+.rb-header .cbtn{
+margin-left:auto;
+background:none;
+border:1px solid var(--peach-mid);
+color:var(--peach-deep);
+border-radius:12px;
+padding:0.2rem 0.6rem;
+font-size:0.72rem;
+cursor:pointer;
 }
 
 .rb-body{
@@ -295,14 +339,6 @@ margin-bottom:1rem;
 display:none;
 line-height:1.6;
 }
-
-footer{
-text-align:center;
-padding:2rem;
-font-size:0.75rem;
-color:var(--text-hint);
-border-top:1px solid var(--border);
-}
 </style>
 </head>
 
@@ -317,16 +353,16 @@ border-top:1px solid var(--border);
 </header>
 
 <div class="local-banner">
-✅ Google API不要｜完全ローカル動作｜Ollama接続
+✅ 完全ローカル動作｜APIキー不要｜Ollama接続
 </div>
 
 <main>
 
 <div class="section-intro">
-<h2>✨ AI会話サポート</h2>
+<h2>✨ お相手との会話をデザインしよう</h2>
 <p>
-お相手のプロフィールを入力すると、<br>
-ローカルAIが会話アドバイスを生成します。
+お相手の情報を入力するだけで、
+AIが会話のきっかけ・話題・アドバイスを生成します。
 </p>
 </div>
 
@@ -334,19 +370,19 @@ border-top:1px solid var(--border);
 
 <div class="card-title">
 <div class="icon">👤</div>
-お相手情報
+お相手の基本情報
 </div>
 
 <div class="form-row">
 
 <div class="form-group">
-<label>名前</label>
-<input type="text" id="partner-name" placeholder="例：田中さん">
+<label>お名前</label>
+<input type="text" id="partner-name">
 </div>
 
 <div class="form-group">
 <label>年齢</label>
-<input type="number" id="partner-age" placeholder="例：28">
+<input type="number" id="partner-age">
 </div>
 
 </div>
@@ -355,74 +391,78 @@ border-top:1px solid var(--border);
 
 <div class="form-group">
 <label>職業</label>
-<input type="text" id="partner-job" placeholder="例：看護師">
+<input type="text" id="partner-job">
 </div>
 
 <div class="form-group">
 <label>居住地</label>
-<input type="text" id="partner-place" placeholder="例：埼玉県">
+<input type="text" id="partner-place">
 </div>
 
 </div>
 
 <div class="form-group">
 <label>趣味・好きなこと</label>
-<input type="text" id="hobbies-input" placeholder="例：旅行、映画、カフェ">
+<input type="text" id="hobbies-input">
 </div>
 
 <div class="form-group">
 <label>プロフィール全文</label>
-<textarea id="profile-text" placeholder="プロフィールをコピペ"></textarea>
+<textarea id="profile-text"></textarea>
 </div>
 
 </div>
 
 <div class="generate-wrap">
 <button class="generate-btn" id="gen-btn" onclick="generate()">
-🌸 会話アドバイス生成
+🌸 会話フローを生成する
 </button>
 </div>
 
 <div id="error-box"></div>
 
 <div class="loading-wrap" id="loading-wrap">
-<p>AIが考えています...</p>
+<p>AIが会話を考えています...</p>
 </div>
 
 <div id="result-area"></div>
 
 </main>
 
-<footer>
-こぐま会話ナビ｜Local LLM Edition
-</footer>
-
 <script>
+
+const CFG=[
+{t:'🔍 性格・雰囲気分析'},
+{t:'💬 鉄板会話ネタ5選'},
+{t:'⏱️ 会話の流れ'},
+{t:'🆘 救済フレーズ'},
+{t:'❓ 質問リスト'},
+{t:'⚠️ NGポイント'},
+{t:'✨ 好印象アドバイス'}
+];
 
 async function generate(){
 
-clearError();
+clearErr();
 
-const name = v('partner-name');
-const age = v('partner-age');
-const job = v('partner-job');
-const place = v('partner-place');
-const hobbies = v('hobbies-input');
-const profile = v('profile-text');
+const name=v('partner-name');
+const age=v('partner-age');
+const job=v('partner-job');
+const place=v('partner-place');
+const hobbies=v('hobbies-input');
+const profile=v('profile-text');
 
 if(!hobbies && !profile){
-showError('趣味またはプロフィールを入力してください');
+err('趣味またはプロフィールを入力してください');
 return;
 }
 
-setLoading(true);
+setLoad(true);
 
-const prompt = `
+const prompt=`
 あなたは婚活・お見合い専門の会話コーチです。
 
-以下のお相手情報を分析してください。
-
-【お相手】
+【お相手情報】
 名前：${name}
 年齢：${age}
 職業：${job}
@@ -432,26 +472,30 @@ const prompt = `
 プロフィール：
 ${profile}
 
-以下を作成してください。
+以下を丁寧に分析してください。
 
-## 1. 性格分析
+## 1. 性格・雰囲気分析
 
-## 2. 会話ネタ5選
+## 2. 鉄板会話ネタ5選
+最初の一言も含める
 
-## 3. 盛り上がる質問
+## 3. 会話の流れ
+序盤、中盤、終盤
 
-## 4. 沈黙時の切り返し
+## 4. 沈黙時の救済フレーズ
 
-## 5. NG話題
+## 5. 盛り上がる質問7選
 
-## 6. 好印象アドバイス
+## 6. NGポイント
 
-やさしく自然な日本語でお願いします。
+## 7. 好印象アドバイス
+
+日本語でやさしく自然に回答してください。
 `;
 
 try{
 
-const response = await fetch('http://localhost:11434/api/generate',{
+const res=await fetch('http://localhost:11434/api/generate',{
 
 method:'POST',
 
@@ -461,69 +505,83 @@ headers:{
 
 body:JSON.stringify({
 
-model:'qwen2.5:14b',
+model:'qwen2.5:32b',
 
 prompt:prompt,
 
-stream:false
+stream:false,
+
+options:{
+temperature:0.7,
+num_predict:2048
+}
 
 })
 
 });
 
-if(!response.ok){
-throw new Error('Ollama接続エラー');
+if(!res.ok){
+throw new Error('Ollamaへ接続できません');
 }
 
-const data = await response.json();
+const data=await res.json();
 
-const text = data.response;
+const text=data.response || '';
 
-render(text);
+render(text,name);
 
 }catch(e){
 
-showError(`
-ローカルLLMへ接続できません。
+err(`
+ローカルLLMエラー
 
 確認してください：
 
-1. Ollamaを起動しているか
-2. qwen2.5:14b をDL済みか
-3. localhost:11434 が動いているか
+1. Ollama起動
+2. qwen2.5:32b導入済み
+3. localhost:11434 動作中
 
 エラー：
 ${e.message}
 `);
 
 }finally{
-setLoading(false);
-}
+
+setLoad(false);
 
 }
 
-function render(text){
+}
 
-const area = document.getElementById('result-area');
+function render(text,name){
 
-area.innerHTML = '';
+const area=document.getElementById('result-area');
 
-const sections = text.split(/##\s*/).filter(Boolean);
+area.innerHTML='';
 
-sections.forEach(sec=>{
+const clean=text.replace(/\*\*/g,'');
 
-const lines = sec.split('\n');
+const parts=clean.split(/##\s*\d+\.\s*/);
 
-const title = lines[0];
+const secs=parts.slice(1);
 
-const body = lines.slice(1).join('\n');
+secs.forEach((s,i)=>{
 
-const div = document.createElement('div');
+const cfg=CFG[i] || {t:`セクション${i+1}`};
 
-div.className = 'result-block';
+const lines=s.split('\n');
 
-div.innerHTML = `
-<div class="rb-header">${title}</div>
+const body=lines.slice(1).join('\n').trim();
+
+const div=document.createElement('div');
+
+div.className='result-block';
+
+div.innerHTML=`
+<div class="rb-header">
+<h3>${cfg.t}</h3>
+<button class="cbtn" onclick="copyBlock(this)">コピー</button>
+</div>
 <div class="rb-body">${body}</div>
 `;
 
@@ -531,35 +589,56 @@ area.appendChild(div);
 
 });
 
+setTimeout(()=>{
+document.querySelectorAll('.result-block')
+.forEach((b,i)=>{
+setTimeout(()=>b.classList.add('visible'),i*120);
+});
+},50);
+
 }
 
-function setLoading(on){
+function copyBlock(btn){
 
-document.getElementById('loading-wrap').style.display =
+const body=btn.closest('.result-block').querySelector('.rb-body');
+
+navigator.clipboard.writeText(body.textContent);
+
+btn.textContent='✅';
+
+setTimeout(()=>{
+btn.textContent='コピー';
+},1500);
+
+}
+
+function setLoad(on){
+
+document.getElementById('loading-wrap').style.display=
 on ? 'block' : 'none';
 
-const btn = document.getElementById('gen-btn');
+const btn=document.getElementById('gen-btn');
 
-btn.disabled = on;
+btn.disabled=on;
 
-btn.textContent =
-on ? '⏳ 生成中...' : '🌸 会話アドバイス生成';
-
-}
-
-function showError(msg){
-
-const box = document.getElementById('error-box');
-
-box.style.display = 'block';
-
-box.textContent = msg;
+btn.textContent=
+on ? '⏳ 生成中...' : '🌸 会話フローを生成する';
 
 }
 
-function clearError(){
+function err(msg){
 
-document.getElementById('error-box').style.display = 'none';
+const b=document.getElementById('error-box');
+
+b.style.display='block';
+
+b.textContent=msg;
+
+}
+
+function clearErr(){
+
+document.getElementById('error-box').style.display='none';
 
 }
 
