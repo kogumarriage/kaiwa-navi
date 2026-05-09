@@ -77,12 +77,7 @@ footer{text-align:center;padding:2rem;font-size:0.75rem;color:var(--text-hint);b
   <div class="logo-bear">🐻</div>
   <div><h1>こぐま会話ナビ</h1><p>お相手との会話フローをAIがサポート</p></div>
 </header>
-<div class="api-banner">
-  <span>🔑 Google APIキー（無料）：</span>
-  <input type="password" id="api-key-input" placeholder="AIzaSy..." autocomplete="off">
-  <button class="api-save-btn" onclick="saveApiKey()">保存</button>
-  <span id="api-status">未設定</span>
-</div>
+
 <main>
   <div class="section-intro">
     <h2>✨ お相手との会話をデザインしよう</h2>
@@ -182,8 +177,8 @@ footer{text-align:center;padding:2rem;font-size:0.75rem;color:var(--text-hint);b
 <footer>こぐま会話ナビ｜婚活・お見合い会話サポートアプリ｜Powered by Google Gemini AI（無料）</footer>
 <div class="toast" id="toast"></div>
 <script>
-let apiKey='',sit='お見合い・初対面',anx='';
-function saveApiKey(){
+'',sit='お見合い・初対面',anx='';
+{
   const v=document.getElementById('api-key-input').value.trim();
   if(!v){toast('APIキーを入力してください');return;}
   if(!v.startsWith('AIza')){toast('AIzaSy...から始まるキーを入力してください');return;}
@@ -191,11 +186,11 @@ function saveApiKey(){
   document.getElementById('api-status').textContent='✅ 設定済み';
   toast('APIキーを保存しました！');
 }
-function loadKey(){const s=localStorage.getItem('kgk');if(s){apiKey=s;document.getElementById('api-key-input').value=s;document.getElementById('api-status').textContent='✅ 設定済み';}}
+{const s=localStorage.getItem('kgk');if(s){apiKey=s;document.getElementById('api-key-input').value=s;document.getElementById('api-status').textContent='✅ 設定済み';}}
 function sel(btn,g){document.getElementById(g+'-group').querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(g==='situation')sit=btn.textContent;if(g==='anxiety')anx=btn.textContent;}
 function addTag(t){t.classList.toggle('active');const inp=document.getElementById('hobbies-input');const a=[...document.querySelectorAll('.hobby-tag.active')].map(x=>x.textContent);const m=inp.value.split(/[,、]/).map(s=>s.trim()).filter(s=>s&&!a.includes(s));inp.value=[...a,...m].join('、');}
 async function generate(){
-  if(!apiKey){err('APIキーが設定されていません。上部の緑バーから設定してください。');return;}
+ {err('APIキーが設定されていません。上部の緑バーから設定してください。');return;}
   const name=v('partner-name'),age=v('partner-age'),job=v('partner-job'),place=v('partner-place'),hobbies=v('hobbies-input'),profile=v('profile-text'),weak=v('my-weak'),strong=v('my-strong');
   if(!hobbies&&!profile){err('趣味またはプロフィール文を入力してください。');return;}
   clearErr();setLoad(true);document.getElementById('result-area').style.display='none';
@@ -205,11 +200,11 @@ async function generate(){
   const msgs=['分析中...','会話ネタを考えています...','フレーズを作成中...','まとめています...'];
   let li=0;const lt=setInterval(()=>{li=(li+1)%msgs.length;const el=document.getElementById('loading-text');if(el)el.textContent=msgs[li];},1800);
   try{
-    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:2048,temperature:0.7}})});
+    const res=await fetch(`const res = await fetch('http://localhost:11434/api/generate', {   method: 'POST',   headers: {     'Content-Type': 'application/json'   },   body: JSON.stringify({     model: 'qwen2.5:32b',     prompt: prompt,     stream: false,     options: {       temperature: 0.7,       num_predict: 2048     }   }) });/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:2048,temperature:0.7}})});
     clearInterval(lt);
     if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`エラー:${res.status}`);}
     const data=await res.json();
-    const text=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+    const text = data.response || '';
     if(!text)throw new Error('返答が空でした');
     render(text,name);
   }catch(e){clearInterval(lt);err('エラーが発生しました：'+e.message);}
@@ -241,7 +236,6 @@ function setLoad(on){document.getElementById('loading-wrap').style.display=on?'b
 function err(msg){const b=document.getElementById('error-box');b.style.display='block';b.textContent=msg;b.scrollIntoView({behavior:'smooth',block:'nearest'});}
 function clearErr(){document.getElementById('error-box').style.display='none';}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-loadKey();
 </script>
 </body>
 </html>
