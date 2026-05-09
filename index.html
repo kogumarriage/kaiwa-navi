@@ -8,472 +8,90 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #FDF8F2;
-    --warm-white: #FFFCF8;
-    --peach-light: #FDEEE6;
-    --peach: #F5C4A8;
-    --peach-mid: #E8A07A;
-    --peach-deep: #C96B3A;
-    --brown-soft: #8B5E3C;
-    --brown-dark: #4A2C14;
-    --sage: #8FAB96;
-    --sage-light: #DCE9DF;
-    --sage-dark: #4A7057;
-    --gold: #C9A84C;
-    --gold-light: #F5E9C8;
-    --text-main: #2D1E12;
-    --text-sub: #7A5A42;
-    --text-hint: #B8997F;
-    --border: #E8D5C0;
-    --shadow: rgba(90, 50, 20, 0.08);
+    --cream:#FDF8F2;--warm-white:#FFFCF8;--peach-light:#FDEEE6;--peach:#F5C4A8;--peach-mid:#E8A07A;--peach-deep:#C96B3A;--brown-soft:#8B5E3C;--brown-dark:#4A2C14;--sage:#8FAB96;--sage-light:#DCE9DF;--sage-dark:#4A7057;--gold:#C9A84C;--gold-light:#F5E9C8;--text-main:#2D1E12;--text-sub:#7A5A42;--text-hint:#B8997F;--border:#E8D5C0;--shadow:rgba(90,50,20,0.08);
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background: var(--cream);
-    color: var(--text-main);
-    min-height: 100vh;
-    background-image: 
-      radial-gradient(circle at 20% 10%, rgba(245,196,168,0.25) 0%, transparent 50%),
-      radial-gradient(circle at 80% 90%, rgba(143,171,150,0.2) 0%, transparent 50%);
-  }
-
-  /* ===== Header ===== */
-  header {
-    background: var(--warm-white);
-    border-bottom: 1px solid var(--border);
-    padding: 1.2rem 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 12px var(--shadow);
-  }
-  .logo-bear {
-    width: 44px; height: 44px;
-    background: var(--peach-light);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    border: 2px solid var(--peach);
-  }
-  header h1 {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 1.3rem;
-    color: var(--brown-dark);
-    font-weight: 600;
-  }
-  header p {
-    font-size: 0.75rem;
-    color: var(--text-hint);
-    margin-top: 1px;
-  }
-
-  /* ===== API Key Banner ===== */
-  .api-banner {
-    background: var(--gold-light);
-    border-bottom: 1px solid var(--gold);
-    padding: 0.7rem 2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.82rem;
-    color: var(--brown-dark);
-  }
-  .api-banner input {
-    flex: 1;
-    max-width: 360px;
-    padding: 0.4rem 0.75rem;
-    border: 1px solid var(--gold);
-    border-radius: 20px;
-    background: white;
-    font-size: 0.82rem;
-    font-family: monospace;
-    color: var(--text-main);
-    outline: none;
-  }
-  .api-banner input:focus { border-color: var(--peach-deep); }
-  .api-save-btn {
-    padding: 0.4rem 1rem;
-    background: var(--gold);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s;
-  }
-  .api-save-btn:hover { background: var(--peach-deep); }
-  #api-status {
-    font-size: 0.78rem;
-    color: var(--sage-dark);
-    font-weight: 500;
-  }
-
-  /* ===== Main Layout ===== */
-  main {
-    max-width: 920px;
-    margin: 2rem auto;
-    padding: 0 1.5rem 4rem;
-  }
-
-  .section-intro {
-    text-align: center;
-    margin-bottom: 2.5rem;
-  }
-  .section-intro h2 {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 1.6rem;
-    color: var(--brown-dark);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-  .section-intro p {
-    font-size: 0.9rem;
-    color: var(--text-sub);
-    line-height: 1.7;
-  }
-
-  /* ===== Card ===== */
-  .card {
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.75rem 2rem;
-    margin-bottom: 1.25rem;
-    box-shadow: 0 2px 16px var(--shadow);
-  }
-  .card-title {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 1.05rem;
-    color: var(--brown-dark);
-    font-weight: 600;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .card-title .icon {
-    width: 28px; height: 28px;
-    background: var(--peach-light);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px;
-    flex-shrink: 0;
-  }
-
-  /* ===== Form Elements ===== */
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
-
-  .form-group { margin-bottom: 1rem; }
-  .form-group:last-child { margin-bottom: 0; }
-
-  label {
-    display: block;
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--text-sub);
-    margin-bottom: 0.4rem;
-    letter-spacing: 0.02em;
-  }
-  .label-badge {
-    display: inline-block;
-    background: var(--peach-light);
-    color: var(--peach-deep);
-    font-size: 0.65rem;
-    padding: 1px 6px;
-    border-radius: 10px;
-    margin-left: 4px;
-    vertical-align: 1px;
-  }
-  .label-badge.optional {
-    background: var(--sage-light);
-    color: var(--sage-dark);
-  }
-
-  input[type="text"], input[type="number"], select, textarea {
-    width: 100%;
-    padding: 0.65rem 0.9rem;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    background: var(--cream);
-    color: var(--text-main);
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 0.9rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-    resize: vertical;
-  }
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--peach-mid);
-    box-shadow: 0 0 0 3px rgba(232,160,122,0.15);
-    background: white;
-  }
-  textarea { min-height: 100px; line-height: 1.6; }
-  select { cursor: pointer; }
-
-  /* Hobby Tags */
-  .hobby-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
-  }
-  .hobby-tag {
-    background: var(--peach-light);
-    color: var(--peach-deep);
-    border: 1px solid var(--peach);
-    border-radius: 20px;
-    padding: 0.3rem 0.75rem;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    user-select: none;
-  }
-  .hobby-tag:hover { background: var(--peach); color: white; }
-  .hobby-tag.active { background: var(--peach-deep); color: white; border-color: var(--peach-deep); }
-
-  /* Radio / Toggle */
-  .toggle-group {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-  .toggle-btn {
-    padding: 0.4rem 1rem;
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    background: var(--cream);
-    color: var(--text-sub);
-    font-size: 0.82rem;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .toggle-btn.active {
-    background: var(--peach-deep);
-    color: white;
-    border-color: var(--peach-deep);
-  }
-  .toggle-btn:hover:not(.active) { border-color: var(--peach-mid); color: var(--text-main); }
-
-  /* Hint text */
-  .hint { font-size: 0.77rem; color: var(--text-hint); margin-top: 0.35rem; line-height: 1.5; }
-
-  /* ===== Generate Button ===== */
-  .generate-wrap {
-    text-align: center;
-    margin: 2rem 0;
-  }
-  .generate-btn {
-    background: linear-gradient(135deg, var(--peach-deep) 0%, #A0522D 100%);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 1rem 3rem;
-    font-size: 1rem;
-    font-weight: 700;
-    font-family: 'Noto Sans JP', sans-serif;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 20px rgba(201,107,58,0.35);
-    letter-spacing: 0.05em;
-    position: relative;
-    overflow: hidden;
-  }
-  .generate-btn::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.4s;
-  }
-  .generate-btn:hover::before { left: 100%; }
-  .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(201,107,58,0.45); }
-  .generate-btn:active { transform: translateY(0); }
-  .generate-btn:disabled {
-    background: #CBBBAF;
-    box-shadow: none;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  /* ===== Loading ===== */
-  .loading-wrap {
-    text-align: center;
-    padding: 3rem 1rem;
-    display: none;
-  }
-  .loading-hearts {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  .loading-hearts span {
-    font-size: 1.5rem;
-    animation: heartbeat 0.8s ease-in-out infinite;
-  }
-  .loading-hearts span:nth-child(2) { animation-delay: 0.15s; }
-  .loading-hearts span:nth-child(3) { animation-delay: 0.3s; }
-  @keyframes heartbeat {
-    0%, 100% { transform: scale(1); opacity: 0.4; }
-    50% { transform: scale(1.3); opacity: 1; }
-  }
-  .loading-text {
-    font-size: 0.9rem;
-    color: var(--text-sub);
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-  }
-
-  /* ===== Result Area ===== */
-  #result-area { display: none; }
-
-  .result-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-  }
-  .result-header h2 {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 1.3rem;
-    color: var(--brown-dark);
-  }
-  .copy-all-btn {
-    background: var(--sage-light);
-    color: var(--sage-dark);
-    border: 1px solid var(--sage);
-    border-radius: 20px;
-    padding: 0.4rem 1rem;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .copy-all-btn:hover { background: var(--sage); color: white; }
-
-  /* Result Blocks */
-  .result-block {
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 12px var(--shadow);
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-  }
-  .result-block.visible { opacity: 1; transform: translateY(0); }
-
-  .result-block-header {
-    background: var(--peach-light);
-    padding: 0.75rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-bottom: 1px solid var(--peach);
-  }
-  .result-block-header .block-icon {
-    font-size: 1.1rem;
-  }
-  .result-block-header h3 {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--peach-deep);
-  }
-  .result-block-header .copy-btn {
-    margin-left: auto;
-    background: none;
-    border: 1px solid var(--peach-mid);
-    color: var(--peach-deep);
-    border-radius: 12px;
-    padding: 0.2rem 0.6rem;
-    font-size: 0.72rem;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .result-block-header .copy-btn:hover { background: var(--peach-mid); color: white; }
-
-  .result-block-body {
-    padding: 1.25rem;
-    font-size: 0.9rem;
-    line-height: 1.85;
-    color: var(--text-main);
-    white-space: pre-wrap;
-  }
-
-  /* Sage blocks (personality) */
-  .result-block.sage .result-block-header { background: var(--sage-light); border-bottom-color: var(--sage); }
-  .result-block.sage .result-block-header h3 { color: var(--sage-dark); }
-  .result-block.sage .result-block-header .copy-btn { border-color: var(--sage); color: var(--sage-dark); }
-  .result-block.sage .result-block-header .copy-btn:hover { background: var(--sage); color: white; }
-
-  /* Gold blocks */
-  .result-block.gold .result-block-header { background: var(--gold-light); border-bottom-color: var(--gold); }
-  .result-block.gold .result-block-header h3 { color: var(--brown-soft); }
-  .result-block.gold .result-block-header .copy-btn { border-color: var(--gold); color: var(--brown-soft); }
-  .result-block.gold .result-block-header .copy-btn:hover { background: var(--gold); color: white; }
-
-  /* ===== Toast ===== */
-  .toast {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--brown-dark);
-    color: white;
-    padding: 0.65rem 1.5rem;
-    border-radius: 30px;
-    font-size: 0.85rem;
-    opacity: 0;
-    transition: all 0.3s;
-    pointer-events: none;
-    z-index: 999;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* ===== Error ===== */
-  .error-box {
-    background: #FFF0F0;
-    border: 1px solid #F4BABA;
-    border-radius: 10px;
-    padding: 1rem 1.25rem;
-    color: #8B2020;
-    font-size: 0.87rem;
-    margin-bottom: 1rem;
-    display: none;
-    line-height: 1.6;
-  }
-
-  /* ===== Footer ===== */
-  footer {
-    text-align: center;
-    padding: 2rem;
-    font-size: 0.75rem;
-    color: var(--text-hint);
-    border-top: 1px solid var(--border);
-  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--text-main);min-height:100vh;background-image:radial-gradient(circle at 20% 10%,rgba(245,196,168,0.25) 0%,transparent 50%),radial-gradient(circle at 80% 90%,rgba(143,171,150,0.2) 0%,transparent 50%);}
+  header{background:var(--warm-white);border-bottom:1px solid var(--border);padding:1.2rem 2rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px var(--shadow);}
+  .logo-bear{width:44px;height:44px;background:var(--peach-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid var(--peach);}
+  header h1{font-family:'Noto Serif JP',serif;font-size:1.3rem;color:var(--brown-dark);font-weight:600;}
+  header p{font-size:0.75rem;color:var(--text-hint);margin-top:1px;}
+  .api-banner{background:#EAF4EA;border-bottom:1px solid #A8D5A2;padding:0.7rem 2rem;display:flex;align-items:center;gap:0.75rem;font-size:0.82rem;color:#2D5A27;flex-wrap:wrap;}
+  .api-banner input{flex:1;min-width:200px;max-width:360px;padding:0.4rem 0.75rem;border:1px solid #A8D5A2;border-radius:20px;background:white;font-size:0.82rem;font-family:monospace;color:var(--text-main);outline:none;}
+  .api-banner input:focus{border-color:#4A7057;}
+  .api-save-btn{padding:0.4rem 1rem;background:#4A7057;color:white;border:none;border-radius:20px;font-size:0.8rem;cursor:pointer;white-space:nowrap;transition:background 0.2s;}
+  .api-save-btn:hover{background:#2D5A27;}
+  #api-status{font-size:0.78rem;color:#4A7057;font-weight:500;}
+  .api-help-link{font-size:0.75rem;color:#4A7057;text-decoration:underline;cursor:pointer;white-space:nowrap;}
+  main{max-width:920px;margin:2rem auto;padding:0 1.5rem 4rem;}
+  .section-intro{text-align:center;margin-bottom:2.5rem;}
+  .section-intro h2{font-family:'Noto Serif JP',serif;font-size:1.6rem;color:var(--brown-dark);font-weight:600;margin-bottom:0.5rem;}
+  .section-intro p{font-size:0.9rem;color:var(--text-sub);line-height:1.7;}
+  .card{background:var(--warm-white);border:1px solid var(--border);border-radius:16px;padding:1.75rem 2rem;margin-bottom:1.25rem;box-shadow:0 2px 16px var(--shadow);}
+  .card-title{font-family:'Noto Serif JP',serif;font-size:1.05rem;color:var(--brown-dark);font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.5rem;}
+  .card-title .icon{width:28px;height:28px;background:var(--peach-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+  @media(max-width:600px){.form-row{grid-template-columns:1fr;}}
+  .form-group{margin-bottom:1rem;}
+  .form-group:last-child{margin-bottom:0;}
+  label{display:block;font-size:0.82rem;font-weight:500;color:var(--text-sub);margin-bottom:0.4rem;letter-spacing:0.02em;}
+  .label-badge{display:inline-block;background:var(--peach-light);color:var(--peach-deep);font-size:0.65rem;padding:1px 6px;border-radius:10px;margin-left:4px;vertical-align:1px;}
+  .label-badge.optional{background:var(--sage-light);color:var(--sage-dark);}
+  input[type="text"],input[type="number"],textarea{width:100%;padding:0.65rem 0.9rem;border:1.5px solid var(--border);border-radius:10px;background:var(--cream);color:var(--text-main);font-family:'Noto Sans JP',sans-serif;font-size:0.9rem;transition:border-color 0.2s,box-shadow 0.2s;outline:none;resize:vertical;}
+  input:focus,textarea:focus{border-color:var(--peach-mid);box-shadow:0 0 0 3px rgba(232,160,122,0.15);background:white;}
+  textarea{min-height:100px;line-height:1.6;}
+  .hobby-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem;}
+  .hobby-tag{background:var(--peach-light);color:var(--peach-deep);border:1px solid var(--peach);border-radius:20px;padding:0.3rem 0.75rem;font-size:0.8rem;cursor:pointer;transition:all 0.15s;user-select:none;}
+  .hobby-tag:hover{background:var(--peach);color:white;}
+  .hobby-tag.active{background:var(--peach-deep);color:white;border-color:var(--peach-deep);}
+  .toggle-group{display:flex;gap:0.5rem;flex-wrap:wrap;}
+  .toggle-btn{padding:0.4rem 1rem;border:1.5px solid var(--border);border-radius:20px;background:var(--cream);color:var(--text-sub);font-size:0.82rem;cursor:pointer;transition:all 0.15s;}
+  .toggle-btn.active{background:var(--peach-deep);color:white;border-color:var(--peach-deep);}
+  .toggle-btn:hover:not(.active){border-color:var(--peach-mid);color:var(--text-main);}
+  .hint{font-size:0.77rem;color:var(--text-hint);margin-top:0.35rem;line-height:1.5;}
+  .generate-wrap{text-align:center;margin:2rem 0;}
+  .generate-btn{background:linear-gradient(135deg,var(--peach-deep) 0%,#A0522D 100%);color:white;border:none;border-radius:50px;padding:1rem 3rem;font-size:1rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 4px 20px rgba(201,107,58,0.35);letter-spacing:0.05em;position:relative;overflow:hidden;}
+  .generate-btn:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(201,107,58,0.45);}
+  .generate-btn:disabled{background:#CBBBAF;box-shadow:none;cursor:not-allowed;transform:none;}
+  .loading-wrap{text-align:center;padding:3rem 1rem;display:none;}
+  .loading-hearts{display:flex;justify-content:center;gap:0.5rem;margin-bottom:1rem;}
+  .loading-hearts span{font-size:1.5rem;animation:heartbeat 0.8s ease-in-out infinite;}
+  .loading-hearts span:nth-child(2){animation-delay:0.15s;}
+  .loading-hearts span:nth-child(3){animation-delay:0.3s;}
+  @keyframes heartbeat{0%,100%{transform:scale(1);opacity:0.4;}50%{transform:scale(1.3);opacity:1;}}
+  .loading-text{font-size:0.9rem;color:var(--text-sub);animation:pulse 1.5s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:0.6;}50%{opacity:1;}}
+  #result-area{display:none;}
+  .result-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
+  .result-header h2{font-family:'Noto Serif JP',serif;font-size:1.3rem;color:var(--brown-dark);}
+  .copy-all-btn{background:var(--sage-light);color:var(--sage-dark);border:1px solid var(--sage);border-radius:20px;padding:0.4rem 1rem;font-size:0.8rem;cursor:pointer;transition:all 0.15s;}
+  .copy-all-btn:hover{background:var(--sage);color:white;}
+  .result-block{background:var(--warm-white);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1rem;box-shadow:0 2px 12px var(--shadow);opacity:0;transform:translateY(12px);transition:opacity 0.4s ease,transform 0.4s ease;}
+  .result-block.visible{opacity:1;transform:translateY(0);}
+  .result-block-header{background:var(--peach-light);padding:0.75rem 1.25rem;display:flex;align-items:center;gap:0.5rem;border-bottom:1px solid var(--peach);}
+  .result-block-header h3{font-size:0.9rem;font-weight:700;color:var(--peach-deep);}
+  .result-block-header .copy-btn{margin-left:auto;background:none;border:1px solid var(--peach-mid);color:var(--peach-deep);border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;cursor:pointer;transition:all 0.15s;}
+  .result-block-header .copy-btn:hover{background:var(--peach-mid);color:white;}
+  .result-block-body{padding:1.25rem;font-size:0.9rem;line-height:1.85;color:var(--text-main);white-space:pre-wrap;}
+  .result-block.sage .result-block-header{background:var(--sage-light);border-bottom-color:var(--sage);}
+  .result-block.sage .result-block-header h3{color:var(--sage-dark);}
+  .result-block.sage .result-block-header .copy-btn{border-color:var(--sage);color:var(--sage-dark);}
+  .result-block.gold .result-block-header{background:var(--gold-light);border-bottom-color:var(--gold);}
+  .result-block.gold .result-block-header h3{color:var(--brown-soft);}
+  .result-block.gold .result-block-header .copy-btn{border-color:var(--gold);color:var(--brown-soft);}
+  .error-box{background:#FFF0F0;border:1px solid #F4BABA;border-radius:10px;padding:1rem 1.25rem;color:#8B2020;font-size:0.87rem;margin-bottom:1rem;display:none;line-height:1.6;}
+  .guide-box{background:#EAF4EA;border:1px solid #A8D5A2;border-radius:12px;padding:1.25rem 1.5rem;margin:0 1.5rem 1rem;display:none;}
+  .guide-box h3{font-size:0.95rem;color:#2D5A27;margin-bottom:0.75rem;font-weight:700;}
+  .guide-box ol{padding-left:1.25rem;}
+  .guide-box ol li{font-size:0.85rem;color:#2D5A27;margin-bottom:0.4rem;line-height:1.6;}
+  .guide-box a{color:#2D5A27;font-weight:700;}
+  .guide-close{margin-top:0.75rem;background:none;border:1px solid #4A7057;color:#4A7057;border-radius:12px;padding:0.3rem 0.75rem;font-size:0.78rem;cursor:pointer;}
+  .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brown-dark);color:white;padding:0.65rem 1.5rem;border-radius:30px;font-size:0.85rem;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  footer{text-align:center;padding:2rem;font-size:0.75rem;color:var(--text-hint);border-top:1px solid var(--border);}
 </style>
 </head>
 <body>
-
-<!-- Header -->
 <header>
   <div class="logo-bear">🐻</div>
   <div>
@@ -482,29 +100,34 @@
   </div>
 </header>
 
-<!-- API Key Banner -->
 <div class="api-banner">
-  <span>🔑 Anthropic APIキー：</span>
-  <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." autocomplete="off">
+  <span>🔑 Google APIキー（無料）：</span>
+  <input type="password" id="api-key-input" placeholder="AIzaSy..." autocomplete="off">
   <button class="api-save-btn" onclick="saveApiKey()">保存</button>
   <span id="api-status">未設定</span>
+  <span class="api-help-link" onclick="toggleGuide()">❓ キーの取得方法</span>
 </div>
 
-<!-- Main -->
+<div class="guide-box" id="guide-box">
+  <h3>🆓 Google APIキーの無料取得方法（3分でできます）</h3>
+  <ol>
+    <li><a href="https://aistudio.google.com/app/apikey" target="_blank">https://aistudio.google.com/app/apikey</a> を開く</li>
+    <li>Googleアカウントでログイン</li>
+    <li>「APIキーを作成」ボタンをクリック</li>
+    <li>表示された「AIzaSy...」から始まるキーをコピー</li>
+    <li>上の入力欄に貼り付けて「保存」をクリック</li>
+  </ol>
+  <button class="guide-close" onclick="toggleGuide()">閉じる</button>
+</div>
+
 <main>
   <div class="section-intro">
     <h2>✨ お相手との会話をデザインしよう</h2>
-    <p>お相手の情報を入力するだけで、AIが会話のきっかけ・話題・アドバイスを作成します。<br>
-    お見合い・デート前日の準備にぴったりです。</p>
+    <p>お相手の情報を入力するだけで、AIが会話のきっかけ・話題・アドバイスを作成します。<br>お見合い・デート前日の準備にぴったりです。</p>
   </div>
 
-  <!-- Card 1: 基本情報 -->
   <div class="card">
-    <div class="card-title">
-      <div class="icon">👤</div>
-      お相手の基本情報
-    </div>
-
+    <div class="card-title"><div class="icon">👤</div>お相手の基本情報</div>
     <div class="form-row">
       <div class="form-group">
         <label>お相手のお名前 <span class="label-badge">任意</span></label>
@@ -515,7 +138,6 @@
         <input type="number" id="partner-age" placeholder="例：28" min="18" max="80">
       </div>
     </div>
-
     <div class="form-row">
       <div class="form-group">
         <label>お相手の職業 <span class="label-badge">任意</span></label>
@@ -526,35 +148,28 @@
         <input type="text" id="partner-place" placeholder="例：埼玉県、北海道出身">
       </div>
     </div>
-
     <div class="form-group">
-      <label>会うシチュエーション <span class="label-badge">必須</span></label>
+      <label>会うシチュエーション</label>
       <div class="toggle-group" id="situation-group">
-        <button class="toggle-btn active" onclick="selectToggle(this, 'situation')">お見合い・初対面</button>
-        <button class="toggle-btn" onclick="selectToggle(this, 'situation')">2回目のデート</button>
-        <button class="toggle-btn" onclick="selectToggle(this, 'situation')">食事（レストラン）</button>
-        <button class="toggle-btn" onclick="selectToggle(this, 'situation')">カフェ</button>
-        <button class="toggle-btn" onclick="selectToggle(this, 'situation')">お散歩・アウトドア</button>
+        <button class="toggle-btn active" onclick="selectToggle(this,'situation')">お見合い・初対面</button>
+        <button class="toggle-btn" onclick="selectToggle(this,'situation')">2回目のデート</button>
+        <button class="toggle-btn" onclick="selectToggle(this,'situation')">食事（レストラン）</button>
+        <button class="toggle-btn" onclick="selectToggle(this,'situation')">カフェ</button>
+        <button class="toggle-btn" onclick="selectToggle(this,'situation')">お散歩・アウトドア</button>
       </div>
     </div>
   </div>
 
-  <!-- Card 2: 趣味・興味 -->
   <div class="card">
-    <div class="card-title">
-      <div class="icon">🎯</div>
-      お相手の趣味・興味
-    </div>
-
+    <div class="card-title"><div class="icon">🎯</div>お相手の趣味・興味</div>
     <div class="form-group">
       <label>趣味・好きなこと（自由入力） <span class="label-badge">おすすめ</span></label>
       <input type="text" id="hobbies-input" placeholder="例：料理、映画鑑賞、登山、カフェ巡り">
       <p class="hint">カンマ区切りで複数入力できます。プロフィールに書いてあった趣味をそのまま入れてOK！</p>
     </div>
-
     <div class="form-group">
       <label>よく使われる趣味タグ（クリックで追加）</label>
-      <div class="hobby-tags" id="hobby-tag-list">
+      <div class="hobby-tags">
         <span class="hobby-tag" onclick="addHobbyTag(this)">料理・グルメ</span>
         <span class="hobby-tag" onclick="addHobbyTag(this)">旅行</span>
         <span class="hobby-tag" onclick="addHobbyTag(this)">映画・ドラマ</span>
@@ -575,31 +190,16 @@
     </div>
   </div>
 
-  <!-- Card 3: プロフィール全文 -->
   <div class="card">
-    <div class="card-title">
-      <div class="icon">📋</div>
-      プロフィール文・自己紹介をコピペ
-    </div>
-
+    <div class="card-title"><div class="icon">📋</div>プロフィール文・自己紹介をコピペ</div>
     <div class="form-group">
       <label>プロフィール全文 <span class="label-badge optional">任意・強力推奨</span></label>
-      <textarea id="profile-text" placeholder="お相手のプロフィール文をそのままコピー＆ペーストしてください。
-「明るく元気な性格です。休日は料理を楽しんでいます…」など
-文章が長いほど精度の高い会話アドバイスが得られます。
-
-結婚相談所のプロフィールシートの文章でもOKです！" style="min-height: 140px;"></textarea>
-      <p class="hint">※ 個人情報の取り扱いに注意してください。AIへの送信はあなたが設定したAPIキー経由です。</p>
+      <textarea id="profile-text" placeholder="お相手のプロフィール文をそのままコピー＆ペーストしてください。文章が長いほど精度の高い会話アドバイスが得られます。" style="min-height:140px;"></textarea>
     </div>
   </div>
 
-  <!-- Card 4: 自分について -->
   <div class="card">
-    <div class="card-title">
-      <div class="icon">🪞</div>
-      あなた自身について（会話アドバイスの精度UP）
-    </div>
-
+    <div class="card-title"><div class="icon">🪞</div>あなた自身について（精度UP）</div>
     <div class="form-row">
       <div class="form-group">
         <label>あなたが苦手な話題 <span class="label-badge optional">任意</span></label>
@@ -610,39 +210,29 @@
         <input type="text" id="my-strong" placeholder="例：旅行、食べ物全般">
       </div>
     </div>
-
     <div class="form-group">
       <label>会話の不安・悩み <span class="label-badge optional">任意</span></label>
       <div class="toggle-group" id="anxiety-group">
-        <button class="toggle-btn" onclick="selectToggle(this, 'anxiety')">沈黙が怖い</button>
-        <button class="toggle-btn" onclick="selectToggle(this, 'anxiety')">話題が続かない</button>
-        <button class="toggle-btn" onclick="selectToggle(this, 'anxiety')">自分のことを話すのが苦手</button>
-        <button class="toggle-btn" onclick="selectToggle(this, 'anxiety')">相手の話をうまく広げられない</button>
-        <button class="toggle-btn" onclick="selectToggle(this, 'anxiety')">緊張しすぎてしまう</button>
+        <button class="toggle-btn" onclick="selectToggle(this,'anxiety')">沈黙が怖い</button>
+        <button class="toggle-btn" onclick="selectToggle(this,'anxiety')">話題が続かない</button>
+        <button class="toggle-btn" onclick="selectToggle(this,'anxiety')">自分のことを話すのが苦手</button>
+        <button class="toggle-btn" onclick="selectToggle(this,'anxiety')">相手の話をうまく広げられない</button>
+        <button class="toggle-btn" onclick="selectToggle(this,'anxiety')">緊張しすぎてしまう</button>
       </div>
     </div>
   </div>
 
-  <!-- Generate Button -->
   <div class="generate-wrap">
-    <button class="generate-btn" id="gen-btn" onclick="generateConversation()">
-      🌸 会話フローを生成する
-    </button>
-    <p class="hint" style="margin-top: 0.75rem;">APIキーを設定してから実行してください</p>
+    <button class="generate-btn" id="gen-btn" onclick="generateConversation()">🌸 会話フローを生成する</button>
+    <p class="hint" style="margin-top:0.75rem;">上部の緑バーからAPIキーを設定してから実行してください</p>
   </div>
 
-  <!-- Error -->
   <div class="error-box" id="error-box"></div>
-
-  <!-- Loading -->
   <div class="loading-wrap" id="loading-wrap">
-    <div class="loading-hearts">
-      <span>🌸</span><span>💬</span><span>🌸</span>
-    </div>
+    <div class="loading-hearts"><span>🌸</span><span>💬</span><span>🌸</span></div>
     <div class="loading-text" id="loading-text">会話フローを考えています...</div>
   </div>
 
-  <!-- Result -->
   <div id="result-area">
     <div class="result-header">
       <h2>✨ あなたへの会話アドバイス</h2>
@@ -650,288 +240,145 @@
     </div>
     <div id="result-blocks"></div>
   </div>
-
 </main>
 
-<footer>
-  こぐま会話ナビ｜婚活・お見合い会話サポートアプリ ｜ Powered by Claude AI
-</footer>
-
-<!-- Toast -->
+<footer>こぐま会話ナビ｜婚活・お見合い会話サポートアプリ｜Powered by Google Gemini AI（無料）</footer>
 <div class="toast" id="toast"></div>
 
 <script>
-// ===== State =====
-let apiKey = '';
-let selectedSituation = 'お見合い・初対面';
-let selectedAnxiety = '';
+let apiKey='';
+let selectedSituation='お見合い・初対面';
+let selectedAnxiety='';
 
-// ===== API Key =====
-function saveApiKey() {
-  const v = document.getElementById('api-key-input').value.trim();
-  if (!v) { showToast('APIキーを入力してください'); return; }
-  if (!v.startsWith('sk-ant-')) { showToast('Anthropic APIキーは sk-ant- で始まります'); return; }
-  apiKey = v;
-  localStorage.setItem('koguma_api_key', v);
-  document.getElementById('api-status').textContent = '✅ 設定済み';
-  document.getElementById('api-status').style.color = '#4A7057';
-  showToast('APIキーを保存しました');
+function saveApiKey(){
+  const v=document.getElementById('api-key-input').value.trim();
+  if(!v){showToast('APIキーを入力してください');return;}
+  if(!v.startsWith('AIza')){showToast('Google APIキーは AIzaSy... から始まります');return;}
+  apiKey=v;
+  localStorage.setItem('koguma_gemini_key',v);
+  document.getElementById('api-status').textContent='✅ 設定済み';
+  showToast('APIキーを保存しました！');
 }
 
-function loadApiKey() {
-  const saved = localStorage.getItem('koguma_api_key');
-  if (saved) {
-    apiKey = saved;
-    document.getElementById('api-key-input').value = saved;
-    document.getElementById('api-status').textContent = '✅ 設定済み';
-    document.getElementById('api-status').style.color = '#4A7057';
-  }
+function loadApiKey(){
+  const saved=localStorage.getItem('koguma_gemini_key');
+  if(saved){apiKey=saved;document.getElementById('api-key-input').value=saved;document.getElementById('api-status').textContent='✅ 設定済み';}
 }
 
-// ===== Toggle Buttons =====
-function selectToggle(btn, group) {
-  const groupEl = document.getElementById(group + '-group');
-  if (!groupEl) return;
-  groupEl.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+function toggleGuide(){
+  const g=document.getElementById('guide-box');
+  g.style.display=g.style.display==='block'?'none':'block';
+}
+
+function selectToggle(btn,group){
+  const g=document.getElementById(group+'-group');
+  if(!g)return;
+  g.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  if (group === 'situation') selectedSituation = btn.textContent;
-  if (group === 'anxiety') selectedAnxiety = btn.textContent;
+  if(group==='situation')selectedSituation=btn.textContent;
+  if(group==='anxiety')selectedAnxiety=btn.textContent;
 }
 
-// ===== Hobby Tags =====
-function addHobbyTag(tag) {
+function addHobbyTag(tag){
   tag.classList.toggle('active');
-  const input = document.getElementById('hobbies-input');
-  const activeTexts = [...document.querySelectorAll('.hobby-tag.active')].map(t => t.textContent);
-  const manualInput = input.value.split(',').map(s => s.trim()).filter(s => s && !activeTexts.includes(s));
-  const combined = [...activeTexts, ...manualInput];
-  input.value = combined.join('、');
+  const input=document.getElementById('hobbies-input');
+  const active=[...document.querySelectorAll('.hobby-tag.active')].map(t=>t.textContent);
+  const manual=input.value.split(/[,、]/).map(s=>s.trim()).filter(s=>s&&!active.includes(s));
+  input.value=[...active,...manual].join('、');
 }
 
-// ===== Generate =====
-async function generateConversation() {
-  if (!apiKey) { showError('APIキーが設定されていません。上部の入力欄からAPIキーを設定してください。'); return; }
-
-  const name = document.getElementById('partner-name').value.trim();
-  const age = document.getElementById('partner-age').value.trim();
-  const job = document.getElementById('partner-job').value.trim();
-  const place = document.getElementById('partner-place').value.trim();
-  const hobbies = document.getElementById('hobbies-input').value.trim();
-  const profile = document.getElementById('profile-text').value.trim();
-  const myWeak = document.getElementById('my-weak').value.trim();
-  const myStrong = document.getElementById('my-strong').value.trim();
-
-  if (!hobbies && !profile) {
-    showError('趣味またはプロフィール文を入力してください。');
-    return;
-  }
-
-  hideError();
-  setLoading(true);
-  document.getElementById('result-area').style.display = 'none';
-
-  const partnerInfo = [
-    name && `名前：${name}`,
-    age && `年齢：${age}歳`,
-    job && `職業：${job}`,
-    place && `出身・居住地：${place}`,
-    hobbies && `趣味・興味：${hobbies}`,
-    profile && `プロフィール全文：\n${profile}`,
-  ].filter(Boolean).join('\n');
-
-  const userInfo = [
-    myWeak && `私が苦手な話題：${myWeak}`,
-    myStrong && `私が得意・好きな話題：${myStrong}`,
-    selectedAnxiety && `会話の悩み：${selectedAnxiety}`,
-  ].filter(Boolean).join('\n');
-
-  const prompt = `あなたは婚活・お見合いの会話コーチです。
-以下のお相手情報と状況をもとに、会話が苦手な人でも実践できる具体的な会話サポートを提供してください。
-
-【状況】${selectedSituation}
-
-【お相手の情報】
-${partnerInfo}
-
-${userInfo ? `【相談者の情報】\n${userInfo}` : ''}
-
-以下の項目を、それぞれ明確に分けて回答してください：
-
-## 1. お相手の性格・雰囲気の分析（3〜5文）
-プロフィールや趣味から読み取れる性格、価値観、大切にしていることを分析してください。
-
-## 2. 鉄板会話ネタ5選（趣味・興味ベース）
-趣味や興味から、盛り上がりやすい具体的な話題を5つ挙げてください。各ネタに「最初の一言フレーズ」も添えてください。
-
-## 3. 会話の流れ（タイムライン）
-会話の序盤・中盤・終盤に分けて、自然な流れを提案してください。
-
-## 4. 沈黙・困ったときの救済フレーズ（5つ）
-会話が止まりそうなときに使える、自然な一言フレーズを5つ提案してください。
-
-## 5. 相手への質問リスト（盛り上がる質問×7つ）
-相手が楽しく話してくれそうな、具体的な質問を7つ作ってください。YES/NOで終わらない質問にしてください。
-
-## 6. やってはいけないNGポイント（3つ）
-このお相手に対して避けるべき話題・言動を3つ挙げてください。
-
-## 7. 好印象を与える一言アドバイス
-最後に、このお相手に特に喜ばれそうなポイントを1〜2文で締めてください。
-
-回答は日本語で、やさしく実践的な内容にしてください。`;
-
-  const loadingMessages = [
-    'お相手のプロフィールを分析中...',
-    '会話ネタを考えています...',
-    '沈黙対策フレーズを作成中...',
-    'アドバイスをまとめています...',
-  ];
-  let li = 0;
-  const lt = setInterval(() => {
-    li = (li + 1) % loadingMessages.length;
-    const el = document.getElementById('loading-text');
-    if (el) el.textContent = loadingMessages[li];
-  }, 1800);
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-
+async function generateConversation(){
+  if(!apiKey){showError('APIキーが設定されていません。上部の緑バーの「❓ キーの取得方法」を参考に設定してください。');return;}
+  const name=document.getElementById('partner-name').value.trim();
+  const age=document.getElementById('partner-age').value.trim();
+  const job=document.getElementById('partner-job').value.trim();
+  const place=document.getElementById('partner-place').value.trim();
+  const hobbies=document.getElementById('hobbies-input').value.trim();
+  const profile=document.getElementById('profile-text').value.trim();
+  const myWeak=document.getElementById('my-weak').value.trim();
+  const myStrong=document.getElementById('my-strong').value.trim();
+  if(!hobbies&&!profile){showError('趣味またはプロフィール文を入力してください。');return;}
+  hideError();setLoading(true);
+  document.getElementById('result-area').style.display='none';
+  const partnerInfo=[name&&`名前：${name}`,age&&`年齢：${age}歳`,job&&`職業：${job}`,place&&`出身・居住地：${place}`,hobbies&&`趣味・興味：${hobbies}`,profile&&`プロフィール全文：\n${profile}`].filter(Boolean).join('\n');
+  const userInfo=[myWeak&&`私が苦手な話題：${myWeak}`,myStrong&&`私が得意・好きな話題：${myStrong}`,selectedAnxiety&&`会話の悩み：${selectedAnxiety}`].filter(Boolean).join('\n');
+  const prompt=`あなたは婚活・お見合いの会話コーチです。以下のお相手情報と状況をもとに、会話が苦手な人でも実践できる具体的な会話サポートを提供してください。\n\n【状況】${selectedSituation}\n\n【お相手の情報】\n${partnerInfo}\n\n${userInfo?`【相談者の情報】\n${userInfo}`:''}\n\n以下の項目を、それぞれ明確に分けて回答してください：\n\n## 1. お相手の性格・雰囲気の分析（3〜5文）\n\n## 2. 鉄板会話ネタ5選（趣味・興味ベース）\n各ネタに「最初の一言フレーズ」も添えてください。\n\n## 3. 会話の流れ（タイムライン）\n序盤・中盤・終盤に分けて提案してください。\n\n## 4. 沈黙・困ったときの救済フレーズ（5つ）\n\n## 5. 相手への質問リスト（盛り上がる質問×7つ）\nYES/NOで終わらない質問にしてください。\n\n## 6. やってはいけないNGポイント（3つ）\n\n## 7. 好印象を与える一言アドバイス\n\n回答は日本語で、やさしく実践的な内容にしてください。`;
+  const msgs=['お相手のプロフィールを分析中...','会話ネタを考えています...','沈黙対策フレーズを作成中...','アドバイスをまとめています...'];
+  let li=0;
+  const lt=setInterval(()=>{li=(li+1)%msgs.length;const el=document.getElementById('loading-text');if(el)el.textContent=msgs[li];},1800);
+  try{
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:2048,temperature:0.7}})});
     clearInterval(lt);
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error?.message || `APIエラー: ${res.status}`);
-    }
-
-    const data = await res.json();
-    const text = data.content?.[0]?.text || '';
-
-    if (!text) throw new Error('AIからの返答が空でした。');
-
-    renderResults(text, name);
-  } catch (e) {
-    clearInterval(lt);
-    showError('エラーが発生しました：' + e.message);
-  } finally {
-    setLoading(false);
-  }
+    if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(err.error?.message||`APIエラー: ${res.status}`);}
+    const data=await res.json();
+    const text=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+    if(!text)throw new Error('AIからの返答が空でした。');
+    renderResults(text,name);
+  }catch(e){clearInterval(lt);showError('エラーが発生しました：'+e.message);}
+  finally{setLoading(false);}
 }
 
-// ===== Render Results =====
-const SECTION_CONFIG = [
-  { key: '1', title: '🔍 お相手の性格・雰囲気分析', color: 'sage' },
-  { key: '2', title: '💬 鉄板会話ネタ5選', color: '' },
-  { key: '3', title: '⏱️ 会話の流れ（タイムライン）', color: '' },
-  { key: '4', title: '🆘 沈黙・困ったときの救済フレーズ', color: 'gold' },
-  { key: '5', title: '❓ 盛り上がる質問リスト', color: '' },
-  { key: '6', title: '⚠️ NGポイント', color: 'sage' },
-  { key: '7', title: '✨ 好印象アドバイス', color: 'gold' },
+const SECTION_CONFIG=[
+  {title:'🔍 お相手の性格・雰囲気分析',color:'sage'},
+  {title:'💬 鉄板会話ネタ5選',color:''},
+  {title:'⏱️ 会話の流れ（タイムライン）',color:''},
+  {title:'🆘 沈黙・困ったときの救済フレーズ',color:'gold'},
+  {title:'❓ 盛り上がる質問リスト',color:''},
+  {title:'⚠️ NGポイント',color:'sage'},
+  {title:'✨ 好印象アドバイス',color:'gold'},
 ];
 
-function renderResults(text, name) {
-  const container = document.getElementById('result-blocks');
-  container.innerHTML = '';
-
-  const parts = text.split(/##\s*\d+\.\s*/);
-  const sections = parts.slice(1);
-
-  if (sections.length === 0) {
-    const block = createBlock('🌸 会話アドバイス', text, '');
-    container.appendChild(block);
-  } else {
-    sections.forEach((section, i) => {
-      const cfg = SECTION_CONFIG[i] || { title: `セクション${i + 1}`, color: '' };
-      const lines = section.split('\n');
-      const titleLine = lines[0].trim();
-      const body = lines.slice(1).join('\n').trim();
-      const displayTitle = cfg.title || titleLine;
-      const block = createBlock(displayTitle, body, cfg.color);
-      container.appendChild(block);
-    });
-  }
-
-  const area = document.getElementById('result-area');
-  area.style.display = 'block';
-  const header = area.querySelector('.result-header h2');
-  if (header) header.textContent = name ? `✨ ${name}さんとの会話アドバイス` : '✨ あなたへの会話アドバイス';
-
-  setTimeout(() => {
-    document.querySelectorAll('.result-block').forEach((b, i) => {
-      setTimeout(() => b.classList.add('visible'), i * 120);
-    });
-    area.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 50);
+function renderResults(text,name){
+  const container=document.getElementById('result-blocks');
+  container.innerHTML='';
+  const cleaned=text.replace(/\*\*/g,'');
+  const parts=cleaned.split(/##\s*\d+\.\s*/);
+  const sections=parts.slice(1);
+  if(sections.length===0){container.appendChild(createBlock('🌸 会話アドバイス',cleaned,''));}
+  else{sections.forEach((section,i)=>{const cfg=SECTION_CONFIG[i]||{title:`セクション${i+1}`,color:''};const lines=section.split('\n');const body=lines.slice(1).join('\n').trim();container.appendChild(createBlock(cfg.title,body,cfg.color));});}
+  const area=document.getElementById('result-area');
+  area.style.display='block';
+  const h=area.querySelector('.result-header h2');
+  if(h)h.textContent=name?`✨ ${name}さんとの会話アドバイス`:'✨ あなたへの会話アドバイス';
+  setTimeout(()=>{document.querySelectorAll('.result-block').forEach((b,i)=>{setTimeout(()=>b.classList.add('visible'),i*120);});area.scrollIntoView({behavior:'smooth',block:'start'});},50);
 }
 
-function createBlock(title, body, colorClass) {
-  const block = document.createElement('div');
-  block.className = 'result-block' + (colorClass ? ' ' + colorClass : '');
-
-  const header = document.createElement('div');
-  header.className = 'result-block-header';
-  header.innerHTML = `<h3>${title}</h3><button class="copy-btn" onclick="copyBlock(this)">コピー</button>`;
-
-  const bodyEl = document.createElement('div');
-  bodyEl.className = 'result-block-body';
-  bodyEl.textContent = body;
-
+function createBlock(title,body,colorClass){
+  const block=document.createElement('div');
+  block.className='result-block'+(colorClass?' '+colorClass:'');
+  const header=document.createElement('div');
+  header.className='result-block-header';
+  header.innerHTML=`<h3>${title}</h3><button class="copy-btn" onclick="copyBlock(this)">コピー</button>`;
+  const bodyEl=document.createElement('div');
+  bodyEl.className='result-block-body';
+  bodyEl.textContent=body;
   block.appendChild(header);
   block.appendChild(bodyEl);
   return block;
 }
 
-// ===== Copy =====
-function copyBlock(btn) {
-  const body = btn.closest('.result-block').querySelector('.result-block-body');
-  if (!body) return;
-  navigator.clipboard.writeText(body.textContent).then(() => {
-    btn.textContent = '✅ コピー済み';
-    setTimeout(() => btn.textContent = 'コピー', 2000);
-  });
+function copyBlock(btn){
+  const body=btn.closest('.result-block').querySelector('.result-block-body');
+  if(!body)return;
+  navigator.clipboard.writeText(body.textContent).then(()=>{btn.textContent='✅ コピー済み';setTimeout(()=>btn.textContent='コピー',2000);});
 }
 
-function copyAll() {
-  const blocks = document.querySelectorAll('.result-block');
-  const all = [...blocks].map(b => {
-    const title = b.querySelector('h3')?.textContent || '';
-    const body = b.querySelector('.result-block-body')?.textContent || '';
-    return `【${title}】\n${body}`;
-  }).join('\n\n---\n\n');
-  navigator.clipboard.writeText(all).then(() => showToast('全文をコピーしました！'));
+function copyAll(){
+  const blocks=document.querySelectorAll('.result-block');
+  const all=[...blocks].map(b=>{const t=b.querySelector('h3')?.textContent||'';const bd=b.querySelector('.result-block-body')?.textContent||'';return`【${t}】\n${bd}`;}).join('\n\n---\n\n');
+  navigator.clipboard.writeText(all).then(()=>showToast('全文をコピーしました！'));
 }
 
-// ===== UI Helpers =====
-function setLoading(v) {
-  document.getElementById('loading-wrap').style.display = v ? 'block' : 'none';
-  const btn = document.getElementById('gen-btn');
-  btn.disabled = v;
-  btn.textContent = v ? '⏳ 生成中...' : '🌸 会話フローを生成する';
+function setLoading(v){
+  document.getElementById('loading-wrap').style.display=v?'block':'none';
+  const btn=document.getElementById('gen-btn');
+  btn.disabled=v;
+  btn.textContent=v?'⏳ 生成中...':'🌸 会話フローを生成する';
 }
+function showError(msg){const box=document.getElementById('error-box');box.style.display='block';box.textContent=msg;box.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function hideError(){document.getElementById('error-box').style.display='none';}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 
-function showError(msg) {
-  const box = document.getElementById('error-box');
-  box.style.display = 'block';
-  box.textContent = msg;
-  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-function hideError() { document.getElementById('error-box').style.display = 'none'; }
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// ===== Init =====
 loadApiKey();
 </script>
 </body>
