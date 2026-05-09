@@ -212,11 +212,78 @@ async function generate(){
 }
 const CFG=[{t:'🔍 性格・雰囲気分析',c:'sage'},{t:'💬 鉄板会話ネタ5選',c:''},{t:'⏱️ 会話の流れ',c:''},{t:'🆘 救済フレーズ',c:'gold'},{t:'❓ 質問リスト',c:''},{t:'⚠️ NGポイント',c:'sage'},{t:'✨ 好印象アドバイス',c:'gold'}];
 function render(text,name){
-  const c=document.getElementById('result-blocks');c.innerHTML='';
-  const clean=text.replace(/\*\*/g,'');
-  const parts=clean.split(/##\s*\d+\.\s*/);
-  const secs=parts.slice(1);
-  if(!secs.length){c.appendChild(block('🌸 会話アドバイス',clean,''));}
+
+const area=document.getElementById('result-area');
+
+area.innerHTML='';
+
+area.style.display='block';
+
+const clean=text.replace(/\*\*/g,'');
+
+const parts=clean.split(/##\s*\d+\.\s*/);
+
+const secs=parts.slice(1);
+
+if(!secs.length){
+
+const div=document.createElement('div');
+
+div.className='result-block visible';
+
+div.innerHTML=`
+<div class="rb-header">
+<h3>🌸 会話アドバイス</h3>
+<button class="cbtn" onclick="cb(this)">コピー</button>
+</div>
+<div class="rb-body">${clean}</div>
+`;
+
+area.appendChild(div);
+
+return;
+
+}
+
+secs.forEach((s,i)=>{
+
+const cfg=CFG[i]||{t:`セクション${i+1}`,c:''};
+
+const lines=s.split('\n');
+
+const body=lines.join('\n').trim();
+
+const div=document.createElement('div');
+
+div.className='result-block'+(cfg.c?' '+cfg.c:'');
+
+div.innerHTML=`
+<div class="rb-header">
+<h3>${cfg.t}</h3>
+<button class="cbtn" onclick="cb(this)">コピー</button>
+</div>
+<div class="rb-body">${body}</div>
+`;
+
+area.appendChild(div);
+
+});
+
+setTimeout(()=>{
+
+document
+.querySelectorAll('.result-block')
+.forEach((b,i)=>{
+
+setTimeout(()=>{
+b.classList.add('visible');
+},i*120);
+
+});
+
+},50);
+
+}
   else{secs.forEach((s,i)=>{const cfg=CFG[i]||{t:`セクション${i+1}`,c:''};const lines=s.split('\n');const body=lines.slice(1).join('\n').trim();c.appendChild(block(cfg.t,body,cfg.c));});}
   const area=document.getElementById('result-area');area.style.display='block';
   document.getElementById('result-title').textContent=name?`✨ ${name}さんとの会話アドバイス`:'✨ あなたへの会話アドバイス';
