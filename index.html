@@ -1,247 +1,573 @@
-html<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>こぐま会話ナビ</title>
+<title>こぐま会話ナビ（ローカルLLM版）</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+
 <style>
-:root{--cream:#FDF8F2;--warm-white:#FFFCF8;--peach-light:#FDEEE6;--peach:#F5C4A8;--peach-mid:#E8A07A;--peach-deep:#C96B3A;--brown-dark:#4A2C14;--sage:#8FAB96;--sage-light:#DCE9DF;--sage-dark:#4A7057;--gold:#C9A84C;--gold-light:#F5E9C8;--brown-soft:#8B5E3C;--text-main:#2D1E12;--text-sub:#7A5A42;--text-hint:#B8997F;--border:#E8D5C0;--shadow:rgba(90,50,20,0.08);}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--text-main);min-height:100vh;}
-header{background:var(--warm-white);border-bottom:1px solid var(--border);padding:1.2rem 2rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px var(--shadow);}
-.logo-bear{width:44px;height:44px;background:var(--peach-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid var(--peach);}
-header h1{font-family:'Noto Serif JP',serif;font-size:1.3rem;color:var(--brown-dark);font-weight:600;}
-header p{font-size:0.75rem;color:var(--text-hint);}
-.api-banner{background:#EAF4EA;border-bottom:1px solid #A8D5A2;padding:0.7rem 2rem;display:flex;align-items:center;gap:0.75rem;font-size:0.82rem;color:#2D5A27;flex-wrap:wrap;}
-.api-banner input{flex:1;min-width:200px;max-width:360px;padding:0.4rem 0.75rem;border:1px solid #A8D5A2;border-radius:20px;background:white;font-size:0.82rem;font-family:monospace;outline:none;}
-.api-save-btn{padding:0.4rem 1rem;background:#4A7057;color:white;border:none;border-radius:20px;font-size:0.8rem;cursor:pointer;}
-#api-status{font-size:0.78rem;color:#4A7057;font-weight:500;}
-main{max-width:920px;margin:2rem auto;padding:0 1.5rem 4rem;}
-.section-intro{text-align:center;margin-bottom:2.5rem;}
-.section-intro h2{font-family:'Noto Serif JP',serif;font-size:1.6rem;color:var(--brown-dark);font-weight:600;margin-bottom:0.5rem;}
-.section-intro p{font-size:0.9rem;color:var(--text-sub);line-height:1.7;}
-.card{background:var(--warm-white);border:1px solid var(--border);border-radius:16px;padding:1.75rem 2rem;margin-bottom:1.25rem;box-shadow:0 2px 16px var(--shadow);}
-.card-title{font-family:'Noto Serif JP',serif;font-size:1.05rem;color:var(--brown-dark);font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.5rem;}
-.card-title .icon{width:28px;height:28px;background:var(--peach-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
-@media(max-width:600px){.form-row{grid-template-columns:1fr;}}
-.form-group{margin-bottom:1rem;}
-label{display:block;font-size:0.82rem;font-weight:500;color:var(--text-sub);margin-bottom:0.4rem;}
-.badge{display:inline-block;background:var(--peach-light);color:var(--peach-deep);font-size:0.65rem;padding:1px 6px;border-radius:10px;margin-left:4px;}
-.badge.opt{background:var(--sage-light);color:var(--sage-dark);}
-input[type=text],input[type=number],textarea{width:100%;padding:0.65rem 0.9rem;border:1.5px solid var(--border);border-radius:10px;background:var(--cream);color:var(--text-main);font-family:'Noto Sans JP',sans-serif;font-size:0.9rem;outline:none;resize:vertical;}
-input:focus,textarea:focus{border-color:var(--peach-mid);background:white;}
-textarea{min-height:100px;line-height:1.6;}
-.hobby-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem;}
-.hobby-tag{background:var(--peach-light);color:var(--peach-deep);border:1px solid var(--peach);border-radius:20px;padding:0.3rem 0.75rem;font-size:0.8rem;cursor:pointer;user-select:none;}
-.hobby-tag.active{background:var(--peach-deep);color:white;border-color:var(--peach-deep);}
-.toggle-group{display:flex;gap:0.5rem;flex-wrap:wrap;}
-.toggle-btn{padding:0.4rem 1rem;border:1.5px solid var(--border);border-radius:20px;background:var(--cream);color:var(--text-sub);font-size:0.82rem;cursor:pointer;}
-.toggle-btn.active{background:var(--peach-deep);color:white;border-color:var(--peach-deep);}
-.hint{font-size:0.77rem;color:var(--text-hint);margin-top:0.35rem;line-height:1.5;}
-.generate-wrap{text-align:center;margin:2rem 0;}
-.generate-btn{background:linear-gradient(135deg,var(--peach-deep),#A0522D);color:white;border:none;border-radius:50px;padding:1rem 3rem;font-size:1rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(201,107,58,0.35);letter-spacing:0.05em;}
-.generate-btn:disabled{background:#CBBBAF;box-shadow:none;cursor:not-allowed;}
-.loading-wrap{text-align:center;padding:3rem 1rem;display:none;}
-.loading-hearts{display:flex;justify-content:center;gap:0.5rem;margin-bottom:1rem;}
-.loading-hearts span{font-size:1.5rem;animation:hb 0.8s ease-in-out infinite;}
-.loading-hearts span:nth-child(2){animation-delay:0.15s;}
-.loading-hearts span:nth-child(3){animation-delay:0.3s;}
-@keyframes hb{0%,100%{transform:scale(1);opacity:0.4;}50%{transform:scale(1.3);opacity:1;}}
-.loading-text{font-size:0.9rem;color:var(--text-sub);}
-#result-area{display:none;}
-.result-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
-.result-header h2{font-family:'Noto Serif JP',serif;font-size:1.3rem;color:var(--brown-dark);}
-.copy-all-btn{background:var(--sage-light);color:var(--sage-dark);border:1px solid var(--sage);border-radius:20px;padding:0.4rem 1rem;font-size:0.8rem;cursor:pointer;}
-.result-block{background:var(--warm-white);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1rem;box-shadow:0 2px 12px var(--shadow);opacity:0;transform:translateY(12px);transition:opacity 0.4s,transform 0.4s;}
-.result-block.visible{opacity:1;transform:translateY(0);}
-.rb-header{background:var(--peach-light);padding:0.75rem 1.25rem;display:flex;align-items:center;border-bottom:1px solid var(--peach);}
-.rb-header h3{font-size:0.9rem;font-weight:700;color:var(--peach-deep);}
-.rb-header .cbtn{margin-left:auto;background:none;border:1px solid var(--peach-mid);color:var(--peach-deep);border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;cursor:pointer;}
-.rb-body{padding:1.25rem;font-size:0.9rem;line-height:1.85;white-space:pre-wrap;}
-.sage .rb-header{background:var(--sage-light);border-bottom-color:var(--sage);}
-.sage .rb-header h3{color:var(--sage-dark);}
-.sage .rb-header .cbtn{border-color:var(--sage);color:var(--sage-dark);}
-.gold .rb-header{background:var(--gold-light);border-bottom-color:var(--gold);}
-.gold .rb-header h3{color:var(--brown-soft);}
-.gold .rb-header .cbtn{border-color:var(--gold);color:var(--brown-soft);}
-.error-box{background:#FFF0F0;border:1px solid #F4BABA;border-radius:10px;padding:1rem;color:#8B2020;font-size:0.87rem;margin-bottom:1rem;display:none;line-height:1.6;}
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brown-dark);color:white;padding:0.65rem 1.5rem;border-radius:30px;font-size:0.85rem;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-footer{text-align:center;padding:2rem;font-size:0.75rem;color:var(--text-hint);border-top:1px solid var(--border);}
+:root{
+--cream:#FDF8F2;
+--warm-white:#FFFCF8;
+--peach-light:#FDEEE6;
+--peach:#F5C4A8;
+--peach-mid:#E8A07A;
+--peach-deep:#C96B3A;
+--brown-dark:#4A2C14;
+--sage:#8FAB96;
+--sage-light:#DCE9DF;
+--sage-dark:#4A7057;
+--gold:#C9A84C;
+--gold-light:#F5E9C8;
+--brown-soft:#8B5E3C;
+--text-main:#2D1E12;
+--text-sub:#7A5A42;
+--text-hint:#B8997F;
+--border:#E8D5C0;
+--shadow:rgba(90,50,20,0.08);
+}
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:'Noto Sans JP',sans-serif;
+background:var(--cream);
+color:var(--text-main);
+min-height:100vh;
+}
+
+header{
+background:var(--warm-white);
+border-bottom:1px solid var(--border);
+padding:1.2rem 2rem;
+display:flex;
+align-items:center;
+gap:1rem;
+position:sticky;
+top:0;
+z-index:100;
+box-shadow:0 2px 12px var(--shadow);
+}
+
+.logo-bear{
+width:44px;
+height:44px;
+background:var(--peach-light);
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+border:2px solid var(--peach);
+}
+
+header h1{
+font-family:'Noto Serif JP',serif;
+font-size:1.3rem;
+color:var(--brown-dark);
+font-weight:600;
+}
+
+header p{
+font-size:0.75rem;
+color:var(--text-hint);
+}
+
+.local-banner{
+background:#EAF4EA;
+border-bottom:1px solid #A8D5A2;
+padding:0.8rem 2rem;
+font-size:0.82rem;
+color:#2D5A27;
+}
+
+main{
+max-width:920px;
+margin:2rem auto;
+padding:0 1.5rem 4rem;
+}
+
+.section-intro{
+text-align:center;
+margin-bottom:2.5rem;
+}
+
+.section-intro h2{
+font-family:'Noto Serif JP',serif;
+font-size:1.6rem;
+color:var(--brown-dark);
+font-weight:600;
+margin-bottom:0.5rem;
+}
+
+.section-intro p{
+font-size:0.9rem;
+color:var(--text-sub);
+line-height:1.7;
+}
+
+.card{
+background:var(--warm-white);
+border:1px solid var(--border);
+border-radius:16px;
+padding:1.75rem 2rem;
+margin-bottom:1.25rem;
+box-shadow:0 2px 16px var(--shadow);
+}
+
+.card-title{
+font-family:'Noto Serif JP',serif;
+font-size:1.05rem;
+color:var(--brown-dark);
+font-weight:600;
+margin-bottom:1.25rem;
+display:flex;
+align-items:center;
+gap:0.5rem;
+}
+
+.card-title .icon{
+width:28px;
+height:28px;
+background:var(--peach-light);
+border-radius:8px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:15px;
+}
+
+.form-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:1rem;
+margin-bottom:1rem;
+}
+
+@media(max-width:600px){
+.form-row{
+grid-template-columns:1fr;
+}
+}
+
+.form-group{
+margin-bottom:1rem;
+}
+
+label{
+display:block;
+font-size:0.82rem;
+font-weight:500;
+color:var(--text-sub);
+margin-bottom:0.4rem;
+}
+
+.badge{
+display:inline-block;
+background:var(--peach-light);
+color:var(--peach-deep);
+font-size:0.65rem;
+padding:1px 6px;
+border-radius:10px;
+margin-left:4px;
+}
+
+.badge.opt{
+background:var(--sage-light);
+color:var(--sage-dark);
+}
+
+input[type=text],
+input[type=number],
+textarea{
+width:100%;
+padding:0.65rem 0.9rem;
+border:1.5px solid var(--border);
+border-radius:10px;
+background:var(--cream);
+color:var(--text-main);
+font-family:'Noto Sans JP',sans-serif;
+font-size:0.9rem;
+outline:none;
+resize:vertical;
+}
+
+input:focus,
+textarea:focus{
+border-color:var(--peach-mid);
+background:white;
+}
+
+textarea{
+min-height:100px;
+line-height:1.6;
+}
+
+.toggle-group{
+display:flex;
+gap:0.5rem;
+flex-wrap:wrap;
+}
+
+.toggle-btn{
+padding:0.4rem 1rem;
+border:1.5px solid var(--border);
+border-radius:20px;
+background:var(--cream);
+color:var(--text-sub);
+font-size:0.82rem;
+cursor:pointer;
+}
+
+.toggle-btn.active{
+background:var(--peach-deep);
+color:white;
+border-color:var(--peach-deep);
+}
+
+.generate-wrap{
+text-align:center;
+margin:2rem 0;
+}
+
+.generate-btn{
+background:linear-gradient(135deg,var(--peach-deep),#A0522D);
+color:white;
+border:none;
+border-radius:50px;
+padding:1rem 3rem;
+font-size:1rem;
+font-weight:700;
+cursor:pointer;
+box-shadow:0 4px 20px rgba(201,107,58,0.35);
+}
+
+.generate-btn:disabled{
+background:#CBBBAF;
+cursor:not-allowed;
+box-shadow:none;
+}
+
+.loading-wrap{
+text-align:center;
+padding:3rem 1rem;
+display:none;
+}
+
+.result-block{
+background:var(--warm-white);
+border:1px solid var(--border);
+border-radius:14px;
+overflow:hidden;
+margin-bottom:1rem;
+box-shadow:0 2px 12px var(--shadow);
+}
+
+.rb-header{
+background:var(--peach-light);
+padding:0.75rem 1.25rem;
+font-weight:700;
+color:var(--peach-deep);
+border-bottom:1px solid var(--peach);
+}
+
+.rb-body{
+padding:1.25rem;
+font-size:0.9rem;
+line-height:1.85;
+white-space:pre-wrap;
+}
+
+#error-box{
+background:#FFF0F0;
+border:1px solid #F4BABA;
+border-radius:10px;
+padding:1rem;
+color:#8B2020;
+font-size:0.87rem;
+margin-bottom:1rem;
+display:none;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+padding:2rem;
+font-size:0.75rem;
+color:var(--text-hint);
+border-top:1px solid var(--border);
+}
 </style>
 </head>
+
 <body>
+
 <header>
-  <div class="logo-bear">🐻</div>
-  <div><h1>こぐま会話ナビ</h1><p>お相手との会話フローをAIがサポート</p></div>
-</header>
-<div class="api-banner">
-  <span>🔑 Google APIキー（無料）：</span>
-  <input type="password" id="api-key-input" placeholder="AIzaSy..." autocomplete="off">
-  <button class="api-save-btn" onclick="saveApiKey()">保存</button>
-  <span id="api-status">未設定</span>
+<div class="logo-bear">🐻</div>
+<div>
+<h1>こぐま会話ナビ</h1>
+<p>ローカルLLM版（Ollama）</p>
 </div>
+</header>
+
+<div class="local-banner">
+✅ Google API不要｜完全ローカル動作｜Ollama接続
+</div>
+
 <main>
-  <div class="section-intro">
-    <h2>✨ お相手との会話をデザインしよう</h2>
-    <p>お相手の情報を入力するだけで、AIが会話のきっかけ・話題・アドバイスを作成します。<br>お見合い・デート前日の準備にぴったりです。</p>
-  </div>
-  <div class="card">
-    <div class="card-title"><div class="icon">👤</div>お相手の基本情報</div>
-    <div class="form-row">
-      <div class="form-group"><label>お相手のお名前 <span class="badge">任意</span></label><input type="text" id="partner-name" placeholder="例：田中さん"></div>
-      <div class="form-group"><label>年齢 <span class="badge">任意</span></label><input type="number" id="partner-age" placeholder="例：28"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>職業 <span class="badge">任意</span></label><input type="text" id="partner-job" placeholder="例：看護師"></div>
-      <div class="form-group"><label>出身・居住地 <span class="badge">任意</span></label><input type="text" id="partner-place" placeholder="例：埼玉県"></div>
-    </div>
-    <div class="form-group">
-      <label>会うシチュエーション</label>
-      <div class="toggle-group" id="situation-group">
-        <button class="toggle-btn active" onclick="sel(this,'situation')">お見合い・初対面</button>
-        <button class="toggle-btn" onclick="sel(this,'situation')">2回目のデート</button>
-        <button class="toggle-btn" onclick="sel(this,'situation')">食事（レストラン）</button>
-        <button class="toggle-btn" onclick="sel(this,'situation')">カフェ</button>
-        <button class="toggle-btn" onclick="sel(this,'situation')">お散歩・アウトドア</button>
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-title"><div class="icon">🎯</div>お相手の趣味・興味</div>
-    <div class="form-group">
-      <label>趣味・好きなこと <span class="badge">おすすめ</span></label>
-      <input type="text" id="hobbies-input" placeholder="例：料理、映画鑑賞、登山">
-      <p class="hint">カンマ区切りで複数入力できます</p>
-    </div>
-    <div class="form-group">
-      <label>よく使われる趣味タグ（クリックで追加）</label>
-      <div class="hobby-tags">
-        <span class="hobby-tag" onclick="addTag(this)">料理・グルメ</span>
-        <span class="hobby-tag" onclick="addTag(this)">旅行</span>
-        <span class="hobby-tag" onclick="addTag(this)">映画・ドラマ</span>
-        <span class="hobby-tag" onclick="addTag(this)">音楽</span>
-        <span class="hobby-tag" onclick="addTag(this)">読書</span>
-        <span class="hobby-tag" onclick="addTag(this)">スポーツ・筋トレ</span>
-        <span class="hobby-tag" onclick="addTag(this)">登山・アウトドア</span>
-        <span class="hobby-tag" onclick="addTag(this)">カフェ巡り</span>
-        <span class="hobby-tag" onclick="addTag(this)">写真・カメラ</span>
-        <span class="hobby-tag" onclick="addTag(this)">ゲーム</span>
-        <span class="hobby-tag" onclick="addTag(this)">ファッション</span>
-        <span class="hobby-tag" onclick="addTag(this)">ペット・動物</span>
-        <span class="hobby-tag" onclick="addTag(this)">アニメ・漫画</span>
-        <span class="hobby-tag" onclick="addTag(this)">ドライブ</span>
-        <span class="hobby-tag" onclick="addTag(this)">ヨガ・ランニング</span>
-        <span class="hobby-tag" onclick="addTag(this)">DIY・インテリア</span>
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-title"><div class="icon">📋</div>プロフィール文をコピペ</div>
-    <div class="form-group">
-      <label>プロフィール全文 <span class="badge opt">任意・強力推奨</span></label>
-      <textarea id="profile-text" placeholder="お相手のプロフィール文をそのままコピー＆ペーストしてください。文章が長いほど精度が上がります。" style="min-height:140px;"></textarea>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-title"><div class="icon">🪞</div>あなた自身について（精度UP）</div>
-    <div class="form-row">
-      <div class="form-group"><label>あなたが苦手な話題 <span class="badge opt">任意</span></label><input type="text" id="my-weak" placeholder="例：スポーツ、政治"></div>
-      <div class="form-group"><label>あなたの得意な話題 <span class="badge opt">任意</span></label><input type="text" id="my-strong" placeholder="例：旅行、食べ物"></div>
-    </div>
-    <div class="form-group">
-      <label>会話の不安・悩み <span class="badge opt">任意</span></label>
-      <div class="toggle-group" id="anxiety-group">
-        <button class="toggle-btn" onclick="sel(this,'anxiety')">沈黙が怖い</button>
-        <button class="toggle-btn" onclick="sel(this,'anxiety')">話題が続かない</button>
-        <button class="toggle-btn" onclick="sel(this,'anxiety')">自分のことを話すのが苦手</button>
-        <button class="toggle-btn" onclick="sel(this,'anxiety')">相手の話を広げられない</button>
-        <button class="toggle-btn" onclick="sel(this,'anxiety')">緊張しすぎてしまう</button>
-      </div>
-    </div>
-  </div>
-  <div class="generate-wrap">
-    <button class="generate-btn" id="gen-btn" onclick="generate()">🌸 会話フローを生成する</button>
-    <p class="hint" style="margin-top:0.75rem;">上部の緑バーからAPIキーを設定してから実行してください</p>
-  </div>
-  <div class="error-box" id="error-box"></div>
-  <div class="loading-wrap" id="loading-wrap">
-    <div class="loading-hearts"><span>🌸</span><span>💬</span><span>🌸</span></div>
-    <div class="loading-text" id="loading-text">会話フローを考えています...</div>
-  </div>
-  <div id="result-area">
-    <div class="result-header">
-      <h2 id="result-title">✨ あなたへの会話アドバイス</h2>
-      <button class="copy-all-btn" onclick="copyAll()">📋 全文コピー</button>
-    </div>
-    <div id="result-blocks"></div>
-  </div>
+
+<div class="section-intro">
+<h2>✨ AI会話サポート</h2>
+<p>
+お相手のプロフィールを入力すると、<br>
+ローカルAIが会話アドバイスを生成します。
+</p>
+</div>
+
+<div class="card">
+
+<div class="card-title">
+<div class="icon">👤</div>
+お相手情報
+</div>
+
+<div class="form-row">
+
+<div class="form-group">
+<label>名前</label>
+<input type="text" id="partner-name" placeholder="例：田中さん">
+</div>
+
+<div class="form-group">
+<label>年齢</label>
+<input type="number" id="partner-age" placeholder="例：28">
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div class="form-group">
+<label>職業</label>
+<input type="text" id="partner-job" placeholder="例：看護師">
+</div>
+
+<div class="form-group">
+<label>居住地</label>
+<input type="text" id="partner-place" placeholder="例：埼玉県">
+</div>
+
+</div>
+
+<div class="form-group">
+<label>趣味・好きなこと</label>
+<input type="text" id="hobbies-input" placeholder="例：旅行、映画、カフェ">
+</div>
+
+<div class="form-group">
+<label>プロフィール全文</label>
+<textarea id="profile-text" placeholder="プロフィールをコピペ"></textarea>
+</div>
+
+</div>
+
+<div class="generate-wrap">
+<button class="generate-btn" id="gen-btn" onclick="generate()">
+🌸 会話アドバイス生成
+</button>
+</div>
+
+<div id="error-box"></div>
+
+<div class="loading-wrap" id="loading-wrap">
+<p>AIが考えています...</p>
+</div>
+
+<div id="result-area"></div>
+
 </main>
-<footer>こぐま会話ナビ｜婚活・お見合い会話サポートアプリ｜Powered by Google Gemini AI（無料）</footer>
-<div class="toast" id="toast"></div>
+
+<footer>
+こぐま会話ナビ｜Local LLM Edition
+</footer>
+
 <script>
-let apiKey='',sit='お見合い・初対面',anx='';
-function saveApiKey(){
-  const v=document.getElementById('api-key-input').value.trim();
-  if(!v){toast('APIキーを入力してください');return;}
-  if(!v.startsWith('AIza')){toast('AIzaSy...から始まるキーを入力してください');return;}
-  apiKey=v;localStorage.setItem('kgk',v);
-  document.getElementById('api-status').textContent='✅ 設定済み';
-  toast('APIキーを保存しました！');
-}
-function loadKey(){const s=localStorage.getItem('kgk');if(s){apiKey=s;document.getElementById('api-key-input').value=s;document.getElementById('api-status').textContent='✅ 設定済み';}}
-function sel(btn,g){document.getElementById(g+'-group').querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(g==='situation')sit=btn.textContent;if(g==='anxiety')anx=btn.textContent;}
-function addTag(t){t.classList.toggle('active');const inp=document.getElementById('hobbies-input');const a=[...document.querySelectorAll('.hobby-tag.active')].map(x=>x.textContent);const m=inp.value.split(/[,、]/).map(s=>s.trim()).filter(s=>s&&!a.includes(s));inp.value=[...a,...m].join('、');}
+
 async function generate(){
-  if(!apiKey){err('APIキーが設定されていません。上部の緑バーから設定してください。');return;}
-  const name=v('partner-name'),age=v('partner-age'),job=v('partner-job'),place=v('partner-place'),hobbies=v('hobbies-input'),profile=v('profile-text'),weak=v('my-weak'),strong=v('my-strong');
-  if(!hobbies&&!profile){err('趣味またはプロフィール文を入力してください。');return;}
-  clearErr();setLoad(true);document.getElementById('result-area').style.display='none';
-  const pi=[name&&`名前：${name}`,age&&`年齢：${age}歳`,job&&`職業：${job}`,place&&`出身：${place}`,hobbies&&`趣味：${hobbies}`,profile&&`プロフィール：\n${profile}`].filter(Boolean).join('\n');
-  const ui=[weak&&`苦手な話題：${weak}`,strong&&`得意な話題：${strong}`,anx&&`悩み：${anx}`].filter(Boolean).join('\n');
-  const prompt=`あなたは婚活・お見合いの会話コーチです。\n【状況】${sit}\n【お相手】\n${pi}\n${ui?`【相談者】\n${ui}`:''}\n\n以下を明確に分けて回答してください：\n## 1. お相手の性格・雰囲気の分析\n## 2. 鉄板会話ネタ5選（最初の一言フレーズ付き）\n## 3. 会話の流れ（序盤・中盤・終盤）\n## 4. 沈黙・困ったときの救済フレーズ5つ\n## 5. 盛り上がる質問リスト7つ（YES/NOで終わらない質問）\n## 6. NGポイント3つ\n## 7. 好印象を与える一言アドバイス\n\n日本語で、やさしく実践的に回答してください。`;
-  const msgs=['分析中...','会話ネタを考えています...','フレーズを作成中...','まとめています...'];
-  let li=0;const lt=setInterval(()=>{li=(li+1)%msgs.length;const el=document.getElementById('loading-text');if(el)el.textContent=msgs[li];},1800);
-  try{
-    const res=await fetch(`http://localhost:11434/api/generate?key=${apiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:2048,temperature:0.7}})});
-    clearInterval(lt);
-    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`エラー:${res.status}`);}
-    const data=await res.json();
-    const text=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
-    if(!text)throw new Error('返答が空でした');
-    render(text,name);
-  }catch(e){clearInterval(lt);err('エラーが発生しました：'+e.message);}
-  finally{setLoad(false);}
+
+clearError();
+
+const name = v('partner-name');
+const age = v('partner-age');
+const job = v('partner-job');
+const place = v('partner-place');
+const hobbies = v('hobbies-input');
+const profile = v('profile-text');
+
+if(!hobbies && !profile){
+showError('趣味またはプロフィールを入力してください');
+return;
 }
-const CFG=[{t:'🔍 性格・雰囲気分析',c:'sage'},{t:'💬 鉄板会話ネタ5選',c:''},{t:'⏱️ 会話の流れ',c:''},{t:'🆘 救済フレーズ',c:'gold'},{t:'❓ 質問リスト',c:''},{t:'⚠️ NGポイント',c:'sage'},{t:'✨ 好印象アドバイス',c:'gold'}];
-function render(text,name){
-  const c=document.getElementById('result-blocks');c.innerHTML='';
-  const clean=text.replace(/\*\*/g,'');
-  const parts=clean.split(/##\s*\d+\.\s*/);
-  const secs=parts.slice(1);
-  if(!secs.length){c.appendChild(block('🌸 会話アドバイス',clean,''));}
-  else{secs.forEach((s,i)=>{const cfg=CFG[i]||{t:`セクション${i+1}`,c:''};const lines=s.split('\n');const body=lines.slice(1).join('\n').trim();c.appendChild(block(cfg.t,body,cfg.c));});}
-  const area=document.getElementById('result-area');area.style.display='block';
-  document.getElementById('result-title').textContent=name?`✨ ${name}さんとの会話アドバイス`:'✨ あなたへの会話アドバイス';
-  setTimeout(()=>{document.querySelectorAll('.result-block').forEach((b,i)=>setTimeout(()=>b.classList.add('visible'),i*120));area.scrollIntoView({behavior:'smooth',block:'start'});},50);
+
+setLoading(true);
+
+const prompt = `
+あなたは婚活・お見合い専門の会話コーチです。
+
+以下のお相手情報を分析してください。
+
+【お相手】
+名前：${name}
+年齢：${age}
+職業：${job}
+居住地：${place}
+趣味：${hobbies}
+
+プロフィール：
+${profile}
+
+以下を作成してください。
+
+## 1. 性格分析
+
+## 2. 会話ネタ5選
+
+## 3. 盛り上がる質問
+
+## 4. 沈黙時の切り返し
+
+## 5. NG話題
+
+## 6. 好印象アドバイス
+
+やさしく自然な日本語でお願いします。
+`;
+
+try{
+
+const response = await fetch('http://localhost:11434/api/generate',{
+
+method:'POST',
+
+headers:{
+'Content-Type':'application/json'
+},
+
+body:JSON.stringify({
+
+model:'qwen2.5:14b',
+
+prompt:prompt,
+
+stream:false
+
+})
+
+});
+
+if(!response.ok){
+throw new Error('Ollama接続エラー');
 }
-function block(title,body,cls){
-  const d=document.createElement('div');d.className='result-block'+(cls?' '+cls:'');
-  const h=document.createElement('div');h.className='rb-header';
-  h.innerHTML=`<h3>${title}</h3><button class="cbtn" onclick="cb(this)">コピー</button>`;
-  const b=document.createElement('div');b.className='rb-body';b.textContent=body;
-  d.appendChild(h);d.appendChild(b);return d;
+
+const data = await response.json();
+
+const text = data.response;
+
+render(text);
+
+}catch(e){
+
+showError(`
+ローカルLLMへ接続できません。
+
+確認してください：
+
+1. Ollamaを起動しているか
+2. qwen2.5:14b をDL済みか
+3. localhost:11434 が動いているか
+
+エラー：
+${e.message}
+`);
+
+}finally{
+setLoading(false);
 }
-function cb(btn){const b=btn.closest('.result-block').querySelector('.rb-body');if(!b)return;navigator.clipboard.writeText(b.textContent).then(()=>{btn.textContent='✅';setTimeout(()=>btn.textContent='コピー',2000);});}
-function copyAll(){const all=[...document.querySelectorAll('.result-block')].map(b=>`【${b.querySelector('h3')?.textContent}】\n${b.querySelector('.rb-body')?.textContent}`).join('\n\n---\n\n');navigator.clipboard.writeText(all).then(()=>toast('全文をコピーしました！'));}
-function v(id){return document.getElementById(id).value.trim();}
-function setLoad(on){document.getElementById('loading-wrap').style.display=on?'block':'none';const b=document.getElementById('gen-btn');b.disabled=on;b.textContent=on?'⏳ 生成中...':'🌸 会話フローを生成する';}
-function err(msg){const b=document.getElementById('error-box');b.style.display='block';b.textContent=msg;b.scrollIntoView({behavior:'smooth',block:'nearest'});}
-function clearErr(){document.getElementById('error-box').style.display='none';}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-loadKey();
+
+}
+
+function render(text){
+
+const area = document.getElementById('result-area');
+
+area.innerHTML = '';
+
+const sections = text.split(/##\s*/).filter(Boolean);
+
+sections.forEach(sec=>{
+
+const lines = sec.split('\n');
+
+const title = lines[0];
+
+const body = lines.slice(1).join('\n');
+
+const div = document.createElement('div');
+
+div.className = 'result-block';
+
+div.innerHTML = `
+<div class="rb-header">${title}</div>
+<div class="rb-body">${body}</div>
+`;
+
+area.appendChild(div);
+
+});
+
+}
+
+function setLoading(on){
+
+document.getElementById('loading-wrap').style.display =
+on ? 'block' : 'none';
+
+const btn = document.getElementById('gen-btn');
+
+btn.disabled = on;
+
+btn.textContent =
+on ? '⏳ 生成中...' : '🌸 会話アドバイス生成';
+
+}
+
+function showError(msg){
+
+const box = document.getElementById('error-box');
+
+box.style.display = 'block';
+
+box.textContent = msg;
+
+}
+
+function clearError(){
+
+document.getElementById('error-box').style.display = 'none';
+
+}
+
+function v(id){
+return document.getElementById(id).value.trim();
+}
+
 </script>
+
 </body>
 </html>
