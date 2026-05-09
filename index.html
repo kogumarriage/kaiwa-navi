@@ -205,7 +205,7 @@ async function generate(){
   const msgs=['分析中...','会話ネタを考えています...','フレーズを作成中...','まとめています...'];
   let li=0;const lt=setInterval(()=>{li=(li+1)%msgs.length;const el=document.getElementById('loading-text');if(el)el.textContent=msgs[li];},1800);
   try{
-    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:2048,temperature:0.7}})});
+    const res=await fetch(`http://localhost:11434/api/generate?key=${apiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:2048,temperature:0.7}})});
     clearInterval(lt);
     if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`エラー:${res.status}`);}
     const data=await res.json();
